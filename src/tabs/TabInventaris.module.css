@@ -1,0 +1,265 @@
+/* TabInventaris.module.css — SIPAMDAL */
+
+/* ── Pos Utama banner ─────────────────────────────────────────────────────────── */
+.posUtamaBanner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+  background: rgba(245, 158, 11, 0.10);
+  border: 1.5px solid rgba(245, 158, 11, 0.35);
+  border-radius: 12px;
+  padding: 10px 14px;
+}
+
+.posUtamaIcon {
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.posUtamaTitle {
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--amber);
+}
+
+.posUtamaSub {
+  font-size: 11px;
+  color: var(--tx-muted);
+  margin-top: 1px;
+}
+
+/* ── Stat tiles ───────────────────────────────────────────────────────────────── */
+.stats {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.statTile {
+  flex: 1;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 10px 12px;
+  text-align: center;
+}
+
+.statCek {
+  background: rgba(var(--orb-rgb), 0.1);
+  border-color: rgba(var(--orb-rgb), 0.18);
+}
+
+.statOk {
+  background: var(--accent-tint);
+  border-color: rgba(14, 165, 233, 0.35);
+}
+
+.statMasalah {
+  background: rgba(201, 27, 42, 0.1);
+  border-color: rgba(201, 27, 42, 0.3);
+}
+
+.statNumber {
+  font-size: 18px;
+  font-weight: 800;
+  line-height: 1.1;
+}
+
+.statNumberAccent { color: var(--accent); }
+.statNumberRed    { color: var(--red); }
+
+.statLabel {
+  font-size: 11px;
+  font-weight: 600;
+  margin-top: 2px;
+}
+
+.statLabelAccent { color: var(--accent); }
+.statLabelRed    { color: var(--red); }
+.statLabelMuted  { color: var(--tx-muted); }
+
+.statDate {
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--tx);
+}
+
+/* ── Daftar barang ────────────────────────────────────────────────────────────── */
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.card {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 10px 12px;
+  background: var(--bg-surface);
+  transition: border-color 0.15s, background 0.15s;
+}
+
+/* ── Baris atas kartu ─────────────────────────────────────────────────────────── */
+.cardRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 0;
+}
+
+.nomor {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  background: rgba(var(--orb-rgb), 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  color: var(--accent);
+  font-size: 12px;
+  flex-shrink: 0;
+}
+
+.info {
+  flex: 1;
+}
+
+.namaBarang {
+  font-weight: 700;
+  font-size: 13px;
+  color: var(--tx-secondary);
+}
+
+.jumlah {
+  font-size: 11px;
+  color: var(--tx-muted);
+}
+
+.statusBadge {
+  border-radius: 8px;
+  padding: 3px 8px;
+  font-size: 11px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.waktu {
+  font-weight: 400;
+  color: var(--tx-muted);
+  margin-left: 4px;
+}
+
+/* ── Tombol admin ─────────────────────────────────────────────────────────────── */
+.adminBtns {
+  display: flex;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.btnEdit {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 5px 9px;
+  cursor: pointer;
+  color: var(--accent);
+  font-size: 10px;
+  font-weight: 700;
+  font-family: inherit;
+}
+
+.btnEdit:hover {
+  background: var(--accent-tint);
+}
+
+.btnHapus {
+  background: rgba(201, 27, 42, 0.1);
+  border: 1px solid #ffcdd2;
+  border-radius: 6px;
+  padding: 5px 9px;
+  cursor: pointer;
+  color: var(--red);
+  font-size: 10px;
+  font-weight: 700;
+  font-family: inherit;
+}
+
+.btnHapus:hover {
+  background: rgba(201, 27, 42, 0.2);
+}
+
+/* ── Tombol status ceklist ────────────────────────────────────────────────────── */
+.statusBtns {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+
+.statusBtn {
+  flex: 1;
+  min-width: 70px;
+  padding: 6px 4px;
+  border-radius: 8px;
+  border: 1.5px solid var(--border2);
+  background: var(--bg-surface);
+  font-size: 11px;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.1s, border-color 0.1s;
+}
+
+/* ── Input & keterangan masalah ───────────────────────────────────────────────── */
+.ketInput {
+  width: 100%;
+  margin-top: 6px;
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: 1.5px solid #ffcdd2;
+  font-size: 11px;
+  font-family: inherit;
+  box-sizing: border-box;
+  color: var(--tx);
+  background: var(--bg-surface);
+}
+
+.ketReadOnly {
+  margin-top: 6px;
+  font-size: 11px;
+  color: var(--red);
+  font-style: italic;
+}
+
+/* ── Form modal ───────────────────────────────────────────────────────────────── */
+.formFields {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.formLabel {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--tx);
+  display: block;
+  margin-bottom: 4px;
+}
+
+.formInput {
+  width: 100%;
+  padding: 9px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  font-size: 13px;
+  font-family: inherit;
+  box-sizing: border-box;
+  color: var(--tx);
+  background: var(--bg-surface);
+}
+
+.formActions {
+  display: flex;
+  gap: 8px;
+  margin-top: 4px;
+}

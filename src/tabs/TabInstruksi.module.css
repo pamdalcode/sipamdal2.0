@@ -1,0 +1,264 @@
+/* TabInstruksi.module.css — SIPAMDAL */
+
+/* ── Tab Switcher ─────────────────────────────────────────────────────────── */
+
+.tabSwitcher {
+  display: flex;
+  gap: 0;
+  margin-bottom: 14px;
+  background: var(--bg-surface);
+  border-radius: 10px;
+  padding: 3px;
+}
+
+.tabBtn {
+  flex: 1;
+  padding: 8px 0;
+  font-size: 12px;
+  font-weight: 700;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  background: transparent;
+  color: var(--tx-muted);
+  box-shadow: none;
+  font-family: inherit;
+  transition: all .15s;
+}
+
+.tabBtnActive {
+  background: var(--bg-surface);
+  color: var(--accent);
+  box-shadow: 0 1px 6px rgba(0, 0, 0, .08);
+}
+
+/* ── Empty States ─────────────────────────────────────────────────────────── */
+
+.emptyAktif {
+  background: var(--accent-tint);
+  border: 1.5px solid #A5D6A7;
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+  color: var(--accent-text);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.emptyArsip {
+  text-align: center;
+  padding: 30px 0;
+  color: var(--tx-muted);
+  font-size: 13px;
+}
+
+/* ── Card Aktif ───────────────────────────────────────────────────────────── */
+
+.card {
+  border-radius: 14px;
+  padding: 14px 16px;
+  margin-bottom: 12px;
+  position: relative;
+}
+
+.accentBar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  border-radius: 14px 14px 0 0;
+}
+
+.cardTopRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.badgeRow {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.prioBadge {
+  color: #fff;
+  border-radius: 6px;
+  padding: 2px 9px;
+  font-size: 10.5px;
+  font-weight: 800;
+}
+
+.ts {
+  font-size: 10px;
+  color: var(--tx-muted);
+}
+
+.editedTag {
+  font-size: 9px;
+  color: var(--tx-muted);
+}
+
+/* ── Admin Actions ────────────────────────────────────────────────────────── */
+
+.adminActions {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+}
+
+.btnEdit {
+  background: rgba(var(--orb-rgb), .1);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 8px 10px;
+  font-size: 10px;
+  color: var(--accent-text);
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.btnArsip {
+  background: rgba(var(--amber-rgb), .07);
+  border: 1px solid #F5A623;
+  border-radius: 6px;
+  padding: 8px 10px;
+  font-size: 10px;
+  color: var(--amber-text);
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.btnHapus {
+  background: rgba(201, 27, 42, .1);
+  border: 1px solid #FFCDD2;
+  border-radius: 6px;
+  padding: 8px 10px;
+  font-size: 10px;
+  color: var(--red);
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+/* ── Konten Card ──────────────────────────────────────────────────────────── */
+
+.judul {
+  font-size: 14px;
+  font-weight: 900;
+  color: var(--tx-secondary);
+  margin-bottom: 6px;
+}
+
+.isi {
+  font-size: 12.5px;
+  color: var(--tx);
+  line-height: 1.7;
+  white-space: pre-wrap;
+  margin-bottom: 10px;
+}
+
+.selesaiInfo {
+  font-size: 10.5px;
+  color: var(--accent-text);
+  margin-bottom: 8px;
+}
+
+/* ── Tombol Selesai ───────────────────────────────────────────────────────── */
+
+.btnSelesai {
+  flex: 1;
+  background: var(--accent);
+  border: none;
+  border-radius: 9px;
+  padding: 10px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #fff;
+  cursor: pointer;
+  font-family: inherit;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.btnBelumSelesai {
+  flex: 1;
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  padding: 10px;
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--accent-text);
+  cursor: pointer;
+  font-family: inherit;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+/* ── Card Arsip ───────────────────────────────────────────────────────────── */
+
+.cardArsip {
+  background: var(--bg-surface);
+  border: 1px solid var(--border2);
+  border-radius: 11px;
+  padding: 10px 14px;
+  margin-bottom: 8px;
+  opacity: .75;
+}
+
+.arsipRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.arsipMeta {
+  display: flex;
+  gap: 5px;
+  margin-bottom: 2px;
+  flex-wrap: wrap;
+}
+
+.arsipPrio {
+  font-size: 10px;
+  color: var(--tx-muted);
+  font-weight: 700;
+}
+
+.arsipSelesai {
+  font-size: 10px;
+  color: var(--accent-text);
+  font-weight: 700;
+}
+
+.arsipJudul {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--tx-muted);
+}
+
+/* ── Modal ────────────────────────────────────────────────────────────────── */
+
+.modalWarning {
+  background: rgba(201, 27, 42, .1);
+  border: 1px solid #FFCDD2;
+  border-radius: 9px;
+  padding: 9px 13px;
+  margin-bottom: 14px;
+  font-size: 11.5px;
+  color: var(--red);
+}

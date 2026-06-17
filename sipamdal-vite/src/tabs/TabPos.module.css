@@ -1,0 +1,759 @@
+/* TabPos.module.css — struktur statis (layout/padding/border yang tidak bergantung props/state).
+   Warna kondisional (full/empty/col, dsb) tetap inline style di TabPos.jsx. */
+
+/* ── Mode toggle ── */
+.modeToggle {
+  display: flex;
+  gap: 0;
+  margin-bottom: 14px;
+  background: var(--bg-surface);
+  border-radius: 10px;
+  padding: 3px;
+}
+
+.modeToggleBtn {
+  flex: 1;
+  padding: 8px 0;
+  font-size: 12.5px;
+  font-weight: 700;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.15s;
+}
+
+/* ── Banner utamakan QR ── */
+.qrBanner {
+  background: rgba(var(--orb-rgb), 0.08);
+  border: 1.5px solid #93c5e8;
+  border-radius: 10px;
+  padding: 9px 13px;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.qrBannerIcon {
+  font-size: 18px;
+  line-height: 1.2;
+}
+
+.qrBannerTitle {
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--accent);
+  margin-bottom: 2px;
+}
+
+.qrBannerText {
+  font-size: 11px;
+  color: var(--tx-muted);
+  line-height: 1.4;
+}
+
+/* ── Grid kartu pos ── */
+.posGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.posCard {
+  background: var(--bg-surface);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: box-shadow 0.3s;
+}
+
+.posCardHeaderBtn {
+  width: 100%;
+  padding: 12px 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: none;
+  font-family: inherit;
+  transition: opacity 0.15s;
+}
+
+.posCardTitle {
+  font-size: 12.5px;
+  font-weight: 800;
+  color: #fff;
+  line-height: 1.3;
+  text-align: left;
+}
+
+.posCardCount {
+  background: rgba(255, 255, 255, 0.25);
+  color: #fff;
+  border-radius: 5px;
+  padding: 3px 8px;
+  font-size: 11px;
+  white-space: nowrap;
+}
+
+.posCardBody {
+  padding: 10px;
+}
+
+.posEmptyMsg {
+  font-size: 11px;
+  text-align: center;
+  padding: 8px 0;
+}
+
+.posMemberRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.posMemberLeft {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.posMemberName {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--tx-secondary);
+}
+
+.posMemberRemoveBtn {
+  background: none;
+  border: none;
+  color: var(--red);
+  cursor: pointer;
+  font-size: 14px;
+  padding: 2px;
+}
+
+.posFullHint {
+  font-size: 10.5px;
+  color: var(--tx-muted);
+  text-align: center;
+  padding: 6px 0 0;
+  font-weight: 600;
+}
+
+.posQRViewBtn {
+  width: 100%;
+  background: none;
+  border: none;
+  border-top: 1px solid var(--border);
+  padding: 6px 0;
+  font-size: 11px;
+  color: var(--tx-muted);
+  cursor: pointer;
+  font-family: inherit;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+
+/* ── Mode rolling ── */
+.rollingBox {
+  background: rgba(var(--orb-rgb), 0.1);
+  border: 1.5px solid #93c5e8;
+  border-radius: 12px;
+  padding: 14px 16px;
+  margin-bottom: 14px;
+}
+
+.rollingTitle {
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--accent);
+  margin-bottom: 4px;
+}
+
+.rollingSub {
+  font-size: 11px;
+  color: var(--tx-muted);
+  margin-bottom: 12px;
+}
+
+.rollingPreview {
+  text-align: center;
+  padding: 6px 0;
+  font-size: 12px;
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.rollingActions {
+  display: flex;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.rollingLogBox {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 12px 14px;
+}
+
+.rollingLogTitle {
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--accent);
+  margin-bottom: 8px;
+}
+
+.rollingLogRow {
+  padding: 6px 0;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.rollingLogInfo {
+  flex: 1;
+}
+
+.rollingLogMember {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--tx-secondary);
+}
+
+.rollingLogTime {
+  font-size: 10.5px;
+  color: var(--tx-muted);
+}
+
+.rollingEmpty {
+  color: var(--tx-muted);
+  font-size: 12px;
+  text-align: center;
+  padding: 20px 0;
+}
+
+/* ── Modal: konfirmasi penempatan (QR & manual) ── */
+.confirmBox {
+  border-radius: 12px;
+  padding: 14px 16px;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.confirmBoxLabel {
+  font-size: 11px;
+  color: var(--tx-muted);
+  margin-bottom: 4px;
+}
+
+.confirmBoxPos {
+  font-size: 20px;
+  font-weight: 900;
+}
+
+.confirmBoxName {
+  font-size: 12px;
+  color: var(--tx-muted);
+  margin-top: 4px;
+}
+
+.photoSection {
+  margin-bottom: 14px;
+}
+
+.photoLabel {
+  display: block;
+  font-size: 11px;
+  margin-bottom: 6px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.photoDropzone {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: rgba(201, 27, 42, 0.07);
+  border: 2px dashed #ffcdd2;
+  border-radius: 10px;
+  padding: 16px 12px;
+  cursor: pointer;
+  color: var(--red);
+  font-weight: 700;
+  font-size: 13px;
+}
+
+.photoPreviewWrap {
+  position: relative;
+  width: 100%;
+}
+
+.photoPreviewImg {
+  width: 100%;
+  max-height: 200px;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 2px solid var(--green-light);
+  display: block;
+}
+
+.photoChangeBtn {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  background: rgba(201, 27, 42, 0.85);
+  border: none;
+  border-radius: 6px;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 6px 10px;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.photoReadyBadge {
+  position: absolute;
+  bottom: 6px;
+  left: 6px;
+  background: rgba(var(--green-rgb), 0.85);
+  border-radius: 6px;
+  padding: 3px 8px;
+  font-size: 10px;
+  color: #fff;
+  font-weight: 700;
+}
+
+.modalActions {
+  display: flex;
+  gap: 8px;
+}
+
+/* ── Modal: rolling via scan ── */
+.rollingScanInfoBox {
+  background: rgba(var(--orb-rgb), 0.08);
+  border: 1.5px solid #93c5e8;
+  border-radius: 12px;
+  padding: 14px 16px;
+  margin-bottom: 14px;
+}
+
+.rollingScanLabel {
+  font-size: 11px;
+  color: var(--tx-muted);
+  margin-bottom: 6px;
+}
+
+.rollingScanPair {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 4px;
+}
+
+.rollingScanPerson {
+  text-align: center;
+}
+
+.rollingScanName {
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--accent);
+}
+
+.rollingScanPos {
+  font-size: 10px;
+  color: var(--tx-muted);
+  margin-top: 2px;
+}
+
+.rollingScanArrow {
+  font-size: 20px;
+  color: var(--accent);
+  font-weight: 900;
+}
+
+/* ── Modal: assign manual (admin) ── */
+.assignTargetBox {
+  border-radius: 10px;
+  padding: 12px;
+  margin-bottom: 14px;
+  text-align: center;
+}
+
+.assignTargetLabel {
+  font-size: 11px;
+  color: var(--tx-muted);
+}
+
+.assignTargetPos {
+  font-size: 18px;
+  font-weight: 900;
+}
+
+.assignTargetMeta {
+  font-size: 11px;
+  color: var(--tx-muted);
+  margin-top: 2px;
+}
+
+.assignSelfBox {
+  background: var(--pill-active);
+  border: 1px solid var(--accent);
+  border-radius: 10px;
+  padding: 10px 14px;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.assignSelfEmoji {
+  font-size: 18px;
+}
+
+.assignSelfLabel {
+  font-size: 11px;
+  color: var(--tx-muted);
+}
+
+.assignSelfName {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+/* ── Audit log penempatan manual (admin) ── */
+.auditBox {
+  margin-top: 18px;
+  background: var(--bg-surface);
+  border: 1.5px solid rgba(201, 27, 42, 0.25);
+  border-radius: 12px;
+  padding: 12px 14px;
+}
+
+.auditTitle {
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--red);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.auditRow {
+  padding: 7px 0;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.auditRowHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.auditRowMethod {
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.auditRowTime {
+  font-size: 10px;
+  color: var(--tx-muted);
+}
+
+.auditRowReason {
+  font-size: 10.5px;
+  color: var(--tx-muted);
+}
+
+.auditRowPhoto {
+  width: 100%;
+  max-height: 100px;
+  object-fit: cover;
+  border-radius: 7px;
+  border: 1.5px solid var(--green-light);
+  cursor: pointer;
+  display: block;
+}
+
+.auditRowNoPhoto {
+  font-size: 10px;
+  color: var(--red);
+  font-weight: 700;
+}
+
+/* ── Modal: QR pos (admin) ── */
+.qrViewBox {
+  text-align: center;
+}
+
+.qrViewCard {
+  background: var(--bg-surface);
+  border-radius: 14px;
+  padding: 18px;
+  display: inline-block;
+  margin-bottom: 10px;
+}
+
+.qrViewCardLabel {
+  margin-top: 8px;
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--tx-secondary);
+}
+
+.qrViewCardSub {
+  font-size: 10px;
+  color: var(--tx-muted);
+}
+
+.qrViewHint {
+  color: var(--tx-muted);
+  font-size: 12px;
+  margin-bottom: 12px;
+}
+
+/* ── ManualVerifyModal ── */
+.warnBanner {
+  background: rgba(201, 27, 42, 0.08);
+  border: 1.5px solid var(--red);
+  border-radius: 10px;
+  padding: 10px 14px;
+  margin-bottom: 14px;
+}
+
+.warnBannerTitle {
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--red);
+  margin-bottom: 3px;
+}
+
+.warnBannerText {
+  font-size: 11px;
+  color: var(--tx-muted);
+  line-height: 1.5;
+}
+
+.targetInfoBox {
+  text-align: center;
+  margin-bottom: 14px;
+}
+
+.targetInfoLabel {
+  font-size: 11px;
+  color: var(--tx-muted);
+}
+
+.targetInfoPos {
+  font-size: 18px;
+  font-weight: 900;
+  color: var(--accent);
+}
+
+.targetInfoUser {
+  font-size: 12px;
+  color: var(--tx-muted);
+}
+
+.targetInfoRolling {
+  font-size: 11px;
+  color: var(--tx-muted);
+  margin-top: 4px;
+}
+
+.lockedBox {
+  text-align: center;
+  padding: 20px 0;
+}
+
+.lockedEmoji {
+  font-size: 28px;
+  margin-bottom: 8px;
+}
+
+.lockedTitle {
+  font-weight: 800;
+  color: var(--red);
+  font-size: 13px;
+  margin-bottom: 4px;
+}
+
+.lockedText {
+  font-size: 11px;
+  color: var(--tx-muted);
+  margin-bottom: 6px;
+}
+
+.lockedCountdown {
+  font-size: 22px;
+  font-weight: 900;
+  color: var(--red);
+}
+
+.lockedFootnote {
+  font-size: 11px;
+  color: var(--tx-muted);
+  margin-top: 6px;
+}
+
+.stepLabel {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--tx-secondary);
+  margin-bottom: 8px;
+}
+
+.alasanOption {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 9px 12px;
+  margin-bottom: 6px;
+  border-radius: 9px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.alasanRadio {
+  margin-top: 2px;
+  accent-color: var(--accent);
+}
+
+.alasanText {
+  font-size: 12px;
+  color: var(--tx-secondary);
+  line-height: 1.4;
+}
+
+.alasanTextarea {
+  width: 100%;
+  min-height: 70px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1.5px solid var(--border);
+  font-size: 12px;
+  font-family: inherit;
+  background: var(--bg-surface);
+  color: var(--tx-primary);
+  resize: vertical;
+  box-sizing: border-box;
+  margin-top: 2px;
+}
+
+.errorText {
+  color: var(--red);
+  font-size: 11px;
+  font-weight: 700;
+  margin-top: 6px;
+  margin-bottom: 4px;
+}
+
+.formActions {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.pinAlasanRecap {
+  background: rgba(var(--orb-rgb), 0.06);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 6px 12px;
+  margin-bottom: 10px;
+  font-size: 11px;
+  color: var(--tx-muted);
+}
+
+.pinInput {
+  width: 100%;
+  padding: 12px 14px;
+  font-size: 20px;
+  text-align: center;
+  letter-spacing: 6px;
+  border-radius: 10px;
+  background: var(--bg-surface);
+  color: var(--tx-primary);
+  font-family: monospace;
+  box-sizing: border-box;
+}
+
+.pinErrorText {
+  color: var(--red);
+  font-size: 11px;
+  font-weight: 700;
+  margin-top: 6px;
+}
+
+.pinFootnote {
+  text-align: center;
+  font-size: 10px;
+  color: var(--tx-muted);
+  margin-top: 8px;
+}
+
+.fotoStepLabel {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--tx-secondary);
+  margin-bottom: 10px;
+}
+
+.fotoDropzoneRequired {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: rgba(201, 27, 42, 0.07);
+  border: 2px dashed var(--red);
+  border-radius: 12px;
+  padding: 28px 16px;
+  cursor: pointer;
+  color: var(--red);
+  font-weight: 700;
+  font-size: 13px;
+  margin-bottom: 4px;
+}
+
+.fotoDropzoneHint {
+  font-size: 10px;
+  font-weight: 400;
+  color: var(--tx-muted);
+  margin-top: -4px;
+}
+
+.fotoPreviewWrap {
+  position: relative;
+  margin-bottom: 4px;
+}
+
+.fotoPreviewImg {
+  width: 100%;
+  max-height: 220px;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 2px solid var(--green-light);
+  display: block;
+}
+
+.fotoSubmitFootnote {
+  text-align: center;
+  font-size: 10px;
+  color: var(--tx-muted);
+  margin-top: 6px;
+}

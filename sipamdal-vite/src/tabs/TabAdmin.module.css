@@ -1,0 +1,1607 @@
+/* TabAdmin.module.css — SIPAMDAL
+   Migrasi dari tab-admin.js (inline styles → CSS Modules)
+   Semua warna via CSS variables dari styles.css (:root)
+   Catatan: .subtab-bar, .subtab-btn, .member-card, .data-card,
+   .audit-card sudah didefinisikan global di styles.css — TIDAK
+   diduplikasi di sini, tetap dirujuk sebagai className string biasa.
+   ─────────────────────────────────────────────────────── */
+
+/* ══════════════════════════════════════════════
+   JADWAL ADMIN LIBUR — form tambah/edit hari libur
+   ══════════════════════════════════════════════ */
+.liburFormCard {
+  background: #fff;
+  border: 1px solid rgba(2, 132, 199, 0.12);
+  border-radius: 12px;
+  padding: 14px;
+  margin-bottom: 12px;
+  box-shadow: 0 2px 12px rgba(2, 132, 199, 0.07);
+}
+
+.liburSectionLabel {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--tx-muted);
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.liburDateRow {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.liburDateSelect {
+  background: rgba(240, 249, 255, 0.8);
+  border: 1px solid rgba(2, 132, 199, 0.2);
+  color: var(--tx-primary);
+  border-radius: 8px;
+  padding: 8px 10px;
+  font-size: 12px;
+  flex: 1;
+}
+
+.liburDateSelectYear {
+  flex: 0 0 72px;
+}
+
+.liburDateSelectDay {
+  flex: 0 0 54px;
+}
+
+.liburDatePreview {
+  font-size: 11px;
+  text-align: center;
+  margin-bottom: 8px;
+  /* color: diset inline (dynamic: exists ? amber : muted) */
+}
+
+.liburLabelInput {
+  width: 100%;
+  background: rgba(240, 249, 255, 0.8);
+  border: 1px solid rgba(2, 132, 199, 0.2);
+  color: var(--tx-primary);
+  border-radius: 8px;
+  padding: 9px 12px;
+  font-size: 13px;
+  outline: none;
+  margin-bottom: 8px;
+  box-sizing: border-box;
+}
+
+.liburTypeRow {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+
+.liburTypeBtn {
+  flex: 1;
+  padding: 8px;
+  border-radius: 8px;
+  border: 1px solid;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  /* border-color, background, color: diset inline (dynamic: tipe aktif) */
+}
+
+.liburSubmitBtn {
+  width: 100%;
+  border: none;
+  border-radius: 8px;
+  padding: 10px;
+  font-size: 13px;
+  font-weight: 700;
+  /* background, color, cursor: diset inline (dynamic: newLabel terisi) */
+}
+
+.liburListLabel {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--tx-muted);
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.liburListWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.liburListItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #fff;
+  border: 1px solid rgba(2, 132, 199, 0.12);
+  border-radius: 10px;
+  padding: 9px 12px;
+}
+
+.liburListItemIcon {
+  font-size: 14px;
+}
+
+.liburListItemInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.liburListItemLabel {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--tx-primary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.liburListItemKey {
+  font-size: 10px;
+  color: var(--tx-muted);
+}
+
+.liburListItemRemoveBtn {
+  background: rgba(239, 68, 68, 0.08);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  color: var(--red-bright);
+  border-radius: 6px;
+  padding: 8px 10px;
+  font-size: 11px;
+  cursor: pointer;
+}
+
+/* ══════════════════════════════════════════════
+   ADMIN EDIT ANGGOTA
+   ══════════════════════════════════════════════ */
+.editBackHeader {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.editBackBtn {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 6px 12px;
+  font-size: 12px;
+  color: var(--accent-text);
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.editBackName {
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--tx);
+}
+
+.editFormCard {
+  background: var(--bg-surface);
+  border: 1px solid rgba(2, 132, 199, 0.15);
+  border-radius: 12px;
+  padding: 14px;
+}
+
+.editFormTitle {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--tx-muted);
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.editFieldWrap {
+  margin-bottom: 10px;
+}
+
+.editFieldWrapLast {
+  margin-bottom: 14px;
+}
+
+.editFieldLabel {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--tx-muted);
+  display: block;
+  margin-bottom: 4px;
+}
+
+.editFieldInput {
+  width: 100%;
+  background: rgba(240, 249, 255, 0.8);
+  border: 1px solid rgba(2, 132, 199, 0.25);
+  color: var(--tx-primary);
+  border-radius: 8px;
+  padding: 9px 12px;
+  font-size: 13px;
+  outline: none;
+  box-sizing: border-box;
+  font-family: inherit;
+}
+
+.editFormActions {
+  display: flex;
+  gap: 8px;
+}
+
+.editIntro {
+  font-size: 11px;
+  color: var(--tx-muted);
+  margin-bottom: 10px;
+  line-height: 1.5;
+}
+
+.editIntroNote {
+  display: block;
+  font-size: 10px;
+  color: var(--tx-ghost);
+  margin-top: 2px;
+}
+
+.editReguGroup {
+  margin-bottom: 14px;
+}
+
+.editReguHeader {
+  font-size: 11px;
+  font-weight: 800;
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  /* color: diset inline (dynamic: reguColors[r]) */
+}
+
+.editReguDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  /* background: diset inline (dynamic: reguColors[r]) */
+}
+
+.editMemberRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--bg-surface);
+  border-radius: 10px;
+  padding: 10px 12px;
+  margin-bottom: 5px;
+  /* border-color: diset inline (dynamic: ovr aktif) */
+}
+
+.editMemberInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.editMemberNameRow {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.editMemberName {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--tx);
+}
+
+.editMemberBadgeEdited {
+  font-size: 10px;
+  background: rgba(2, 132, 199, 0.12);
+  color: var(--accent-2);
+  border-radius: 4px;
+  padding: 1px 5px;
+  font-weight: 700;
+}
+
+.editMemberBadgeDanru {
+  font-size: 10px;
+  background: rgba(217, 119, 6, 0.12);
+  color: var(--amber-bright);
+  border-radius: 4px;
+  padding: 1px 5px;
+  font-weight: 700;
+}
+
+.editMemberHp {
+  font-size: 10px;
+  color: var(--tx-muted);
+  margin-top: 2px;
+}
+
+.editMemberNip {
+  font-size: 9px;
+  color: var(--tx-ghost);
+}
+
+.editMemberActions {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.editMemberEditBtn {
+  background: rgba(2, 132, 199, 0.08);
+  border: 1px solid rgba(2, 132, 199, 0.2);
+  color: var(--accent-2);
+  border-radius: 6px;
+  padding: 8px 10px;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.editMemberResetBtn {
+  background: rgba(239, 68, 68, 0.07);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  color: var(--red-bright);
+  border-radius: 6px;
+  padding: 8px 10px;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* ══════════════════════════════════════════════
+   ADMIN UPLOAD ANGGOTA (sync Firebase)
+   ══════════════════════════════════════════════ */
+.uploadCard {
+  background: var(--bg-base);
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  padding: 14px 16px;
+}
+
+.uploadTitle {
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--accent-text);
+  margin-bottom: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.uploadDesc {
+  font-size: 12px;
+  color: var(--tx-muted);
+  margin-bottom: 12px;
+  line-height: 1.5;
+}
+
+.uploadBtn {
+  width: 100%;
+  border: none;
+  border-radius: 9px;
+  padding: 11px;
+  font-size: 13px;
+  font-weight: 700;
+  font-family: inherit;
+  /* background, color, cursor: diset inline (dynamic: loading) */
+}
+
+.uploadStatusOk {
+  margin-top: 8px;
+  font-size: 11px;
+  color: var(--accent-text);
+  font-weight: 700;
+  text-align: center;
+}
+
+.uploadStatusErr {
+  margin-top: 8px;
+  font-size: 11px;
+  color: var(--red);
+  font-weight: 700;
+  text-align: center;
+}
+
+.dividerLine {
+  height: 1px;
+  background: rgba(2, 132, 199, 0.1);
+  margin: 16px 0;
+}
+
+.editSectionLabel {
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--accent-2);
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* ══════════════════════════════════════════════
+   INSTRUKSI FORM TAB
+   ══════════════════════════════════════════════ */
+.instruksiPanel {
+  padding: 16px 16px 24px;
+}
+
+.instruksiActiveHeader {
+  margin-bottom: 18px;
+}
+
+.instruksiActiveLabel {
+  font-size: 10px;
+  font-weight: 800;
+  color: var(--tx-muted);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.instruksiEmptyState {
+  background: var(--accent-tint);
+  border: 1.5px solid #A5D6A7;
+  border-radius: 10px;
+  padding: 12px;
+  text-align: center;
+  color: var(--accent-text);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.instruksiCard {
+  background: rgba(0, 0, 0, 0.02);
+  border: 1px solid var(--border);
+  border-radius: 0 8px 8px 0;
+  padding: 8px 10px 8px 12px;
+  margin-bottom: 8px;
+  /* border-left color: diset inline (dynamic: prioritas) */
+}
+
+.instruksiCardHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 3px;
+}
+
+.instruksiCardMain {
+  flex: 1;
+  min-width: 0;
+}
+
+.instruksiCardMeta {
+  font-size: 10px;
+  font-weight: 800;
+  margin-bottom: 2px;
+  /* color: diset inline (dynamic: prioritas) */
+}
+
+.instruksiCardBody {
+  font-size: 11px;
+  color: var(--tx);
+  line-height: 1.4;
+}
+
+.instruksiCardTargetBadge {
+  font-size: 9px;
+  color: var(--tx-muted);
+  background: var(--border);
+  border-radius: 4px;
+  padding: 1px 5px;
+  margin-left: 6px;
+  flex-shrink: 0;
+}
+
+.instruksiCardDeleteBtn {
+  margin-top: 4px;
+  background: rgba(201, 27, 42, 0.08);
+  border: 1px solid rgba(201, 27, 42, 0.22);
+  color: var(--red);
+  border-radius: 6px;
+  padding: 3px 10px;
+  font-size: 10px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.instruksiFormLabel {
+  font-size: 10px;
+  font-weight: 800;
+  color: var(--red);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.instruksiInputJudul {
+  width: 100%;
+  background: var(--bg-surface);
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  padding: 9px 12px;
+  color: var(--tx);
+  font-size: 12px;
+  margin-bottom: 8px;
+  box-sizing: border-box;
+  outline: none;
+  font-family: inherit;
+}
+
+.instruksiTextareaIsi {
+  width: 100%;
+  min-height: 70px;
+  background: var(--bg-surface);
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  padding: 9px 12px;
+  color: var(--tx);
+  font-size: 12px;
+  resize: none;
+  box-sizing: border-box;
+  outline: none;
+  margin-bottom: 8px;
+  font-family: inherit;
+}
+
+.instruksiChipRow {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.instruksiChipRowTarget {
+  margin-bottom: 12px;
+}
+
+.instruksiChip {
+  flex: 1;
+  padding: 6px 4px;
+  border-radius: 7px;
+  border: 1.5px solid;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+  /* border-color, background, color: diset inline (dynamic: aktif) */
+}
+
+.instruksiSendBtn {
+  width: 100%;
+  background: var(--red);
+  color: #fff;
+  border: none;
+  border-radius: 9px;
+  padding: 11px;
+  font-size: 12px;
+  font-weight: 800;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+/* ══════════════════════════════════════════════
+   BROADCAST TAB
+   ══════════════════════════════════════════════ */
+.broadcastPanel {
+  padding: 16px 16px 24px;
+}
+
+.waSettingCard {
+  margin-bottom: 16px;
+  background: rgba(37, 211, 102, 0.06);
+  border: 1px solid rgba(37, 211, 102, 0.25);
+  border-radius: 12px;
+  padding: 12px 14px;
+}
+
+.waSettingLabel {
+  font-size: 10px;
+  font-weight: 800;
+  color: #128c7e;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.waSettingDesc {
+  font-size: 10px;
+  color: var(--tx-muted);
+  margin-bottom: 8px;
+}
+
+.waSettingInput {
+  width: 100%;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1.5px solid rgba(37, 211, 102, 0.35);
+  font-size: 12px;
+  box-sizing: border-box;
+  outline: none;
+  font-family: inherit;
+  background: var(--bg-surface);
+  color: var(--tx-primary);
+}
+
+.waSettingSaveBtn {
+  margin-top: 8px;
+  background: #25d366;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 18px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.bcActiveCard {
+  background: rgba(14, 165, 233, 0.07);
+  border: 1px solid rgba(4, 120, 87, 0.20);
+  border-radius: 10px;
+  padding: 10px 12px;
+  margin-bottom: 14px;
+}
+
+.bcActiveLabel {
+  font-size: 9px;
+  color: var(--tx-muted);
+  font-weight: 700;
+  margin-bottom: 3px;
+}
+
+.bcActiveBody {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--tx);
+  line-height: 1.5;
+}
+
+.bcActivePengirim {
+  font-size: 10px;
+  color: var(--tx-muted);
+  margin-top: 4px;
+  font-style: italic;
+}
+
+.bcActiveTs {
+  font-size: 9.5px;
+  color: var(--tx-ghost);
+  margin-top: 2px;
+}
+
+.bcActiveDeleteBtn {
+  margin-top: 8px;
+  background: rgba(201, 27, 42, 0.08);
+  border: 1px solid rgba(201, 27, 42, 0.22);
+  color: var(--red);
+  border-radius: 6px;
+  padding: 4px 12px;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.bcEmptyCard {
+  background: rgba(14, 165, 233, 0.07);
+  border: 1px solid rgba(14, 165, 233, 0.20);
+  border-radius: 10px;
+  padding: 10px 12px;
+  margin-bottom: 14px;
+  font-size: 11px;
+  color: var(--tx-muted);
+  text-align: center;
+}
+
+.bcNewWrap {
+  margin-bottom: 8px;
+}
+
+.bcNewLabel {
+  font-size: 10px;
+  font-weight: 800;
+  color: var(--accent-text);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.bcNewTextarea {
+  width: 100%;
+  min-height: 100px;
+  background: var(--bg-surface);
+  border: 1.5px solid var(--border);
+  border-radius: 9px;
+  padding: 9px 12px;
+  color: var(--tx);
+  font-size: 12px;
+  resize: none;
+  box-sizing: border-box;
+  outline: none;
+  font-family: inherit;
+}
+
+.bcSendBtn {
+  margin-top: 8px;
+  width: 100%;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 9px;
+  padding: 10px;
+  font-size: 12px;
+  font-weight: 800;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+/* ══════════════════════════════════════════════
+   ADMIN MEMBER TAB — DETAIL MEMBER VIEW
+   ══════════════════════════════════════════════ */
+.detailBackHeader {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.detailBackBtn {
+  background: var(--accent-tint);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 6px 12px;
+  font-size: 12px;
+  color: var(--accent-text);
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.detailName {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 900;
+  color: var(--tx);
+}
+
+.detailHeroCard {
+  border-radius: 14px;
+  padding: 16px 18px;
+  margin-bottom: 14px;
+  color: #fff;
+  /* background: diset inline (dynamic: reguColors[regu]) */
+}
+
+.detailHeroName {
+  font-size: 18px;
+  font-weight: 900;
+}
+
+.detailHeroSub {
+  font-size: 12px;
+  opacity: 0.8;
+  margin-top: 2px;
+}
+
+.detailHeroNip {
+  font-size: 10.5px;
+  opacity: 0.7;
+  margin-top: 1px;
+}
+
+.detailHeroScore {
+  font-size: 12px;
+  opacity: 0.75;
+  margin-top: 1px;
+}
+
+.detailHeroWaLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 10px;
+  background: rgba(255, 255, 255, 0.22);
+  border: 1.5px solid rgba(255, 255, 255, 0.5);
+  border-radius: 99px;
+  padding: 6px 14px;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.detailStatsRow {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+
+.detailStatPill {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  padding: 6px 12px;
+  text-align: center;
+}
+
+.detailStatPillValue {
+  font-size: 18px;
+  font-weight: 900;
+}
+
+.detailStatPillLabel {
+  font-size: 10px;
+}
+
+.detailLogCard {
+  background: var(--bg-surface);
+  border: 1.5px solid var(--border2);
+  border-radius: 12px;
+  padding: 12px 14px;
+  margin-bottom: 12px;
+}
+
+.detailLogTitle {
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--accent-text);
+  margin-bottom: 8px;
+}
+
+.detailLogEmpty {
+  font-size: 12px;
+  color: var(--tx-muted);
+}
+
+.detailLogRow {
+  padding: 6px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 12px;
+}
+
+.detailLogRowMain {
+  font-weight: 700;
+  color: var(--tx);
+}
+
+.detailLogRowMeta {
+  color: var(--tx-muted);
+  font-size: 10.5px;
+}
+
+/* ══════════════════════════════════════════════
+   ADMIN MEMBER TAB — JADWAL SUB-TAB
+   ══════════════════════════════════════════════ */
+.jadwalHeroCard {
+  border-radius: 12px;
+  color: #fff;
+  margin-bottom: 12px;
+  overflow: hidden;
+  /* background: diset inline (dynamic: rc.accent) */
+}
+
+.jadwalHeroInner {
+  padding: 12px 14px;
+}
+
+.jadwalHeroDate {
+  font-size: 10px;
+  opacity: 0.8;
+}
+
+.jadwalHeroTitle {
+  font-size: 20px;
+  font-weight: 900;
+}
+
+.jadwalHeroLiburBadge {
+  font-size: 10px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 6px;
+  padding: 3px 8px;
+  display: inline-block;
+  margin-top: 4px;
+}
+
+.jadwalHeroMemberRow {
+  padding: 8px 14px 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.jadwalHeroMemberChip {
+  background: rgba(255, 255, 255, 0.22);
+  border-radius: 6px;
+  padding: 3px 9px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.jadwalHeroMemberChipLibur {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  padding: 3px 9px;
+  font-size: 11px;
+  font-weight: 600;
+  text-decoration: line-through;
+  opacity: 0.65;
+}
+
+.jadwalAllReguLabel {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--tx-muted);
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.jadwalReguCard {
+  border-radius: 12px;
+  margin-bottom: 8px;
+  overflow: hidden;
+  /* background, border-color: diset inline (dynamic: isToday) */
+}
+
+.jadwalReguCardHeader {
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  /* background: diset inline (dynamic: isToday) */
+}
+
+.jadwalReguCardHeaderLeft {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.jadwalReguCardLabel {
+  font-size: 13px;
+  font-weight: 900;
+  /* color: diset inline (dynamic: isToday) */
+}
+
+.jadwalReguCardDanru {
+  font-size: 10px;
+  /* color: diset inline (dynamic: isToday) */
+}
+
+.jadwalReguCardTodayBadge {
+  background: rgba(255, 255, 255, 0.25);
+  color: #fff;
+  border-radius: 20px;
+  padding: 2px 8px;
+  font-size: 9px;
+  font-weight: 700;
+}
+
+.jadwalReguCardBody {
+  padding: 8px 10px;
+}
+
+.jadwalMemberGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.jadwalMemberChip {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  border-radius: 7px;
+  padding: 4px 8px;
+  /* background, border-color: diset inline (dynamic: isLibur/isToday) */
+}
+
+.jadwalMemberChipIcon {
+  font-size: 9px;
+}
+
+.jadwalMemberChipName {
+  font-size: 10.5px;
+  font-weight: 700;
+  /* color, text-decoration: diset inline (dynamic: isLibur) */
+}
+
+.jadwalMemberChipRole {
+  font-size: 10px;
+  color: var(--tx-ghost);
+}
+
+/* ══════════════════════════════════════════════
+   ADMIN MEMBER TAB — PROGRES SUB-TAB
+   ══════════════════════════════════════════════ */
+.progresReguGroup {
+  margin-bottom: 18px;
+}
+
+.progresReguHeader {
+  font-size: 12px;
+  font-weight: 800;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  /* color: diset inline (dynamic: reguColors[r]) */
+}
+
+.progresReguDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  /* background: diset inline (dynamic: reguColors[r]) */
+}
+
+.progresMemberIcon {
+  width: 42px;
+  height: 42px;
+  border-radius: 11px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  flex-shrink: 0;
+  /* background: diset inline (dynamic: reguColors[r]) */
+}
+
+.progresMemberInfo {
+  flex: 1;
+}
+
+.progresMemberNameRow {
+  font-size: 13.5px;
+  font-weight: 800;
+  color: var(--tx);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.progresMemberDanruBadge {
+  font-size: 9px;
+  font-weight: 700;
+  border-radius: 99px;
+  padding: 1px 6px;
+  /* background, color: diset inline (dynamic: reguColors[r]) */
+}
+
+.progresMemberStatLine {
+  font-size: 11px;
+  color: var(--tx-muted);
+  margin-top: 2px;
+}
+
+.progresMemberStatLineLast {
+  font-size: 11px;
+  color: var(--tx-muted);
+}
+
+.progresMemberRight {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+}
+
+.progresScoreBlock {
+  text-align: right;
+}
+
+.progresScoreValue {
+  font-size: 18px;
+  font-weight: 900;
+  /* color: diset inline (dynamic: reguColors[r]) */
+}
+
+.progresScoreLabel {
+  font-size: 9.5px;
+  color: var(--tx-muted);
+}
+
+.progresWaBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: #25d36615;
+  border: 1px solid #25d36640;
+  border-radius: 99px;
+  padding: 4px 9px;
+  color: var(--whatsapp-dark);
+  font-size: 10px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+/* ══════════════════════════════════════════════
+   ADMIN MEMBER TAB — AUDIT SUB-TAB
+   ══════════════════════════════════════════════ */
+.auditHeaderRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.auditHeaderTitle {
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--tx-secondary);
+}
+
+.auditRefreshBtn {
+  background: rgba(var(--orb-rgb), 0.1);
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  padding: 8px 12px;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--accent-text);
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.auditLoadingState {
+  text-align: center;
+  padding: 20px;
+  color: var(--tx-muted);
+  font-size: 12px;
+}
+
+.auditCardIcon {
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.auditCardBody {
+  flex: 1;
+}
+
+.auditCardTopRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.auditCardActionBadge {
+  font-size: 11px;
+  font-weight: 800;
+  border-radius: 5px;
+  padding: 2px 7px;
+  /* color, background: diset inline (dynamic: ACTION_COL[action]) */
+}
+
+.auditCardTime {
+  font-size: 10px;
+  color: var(--tx-muted);
+}
+
+.auditCardActor {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--tx-secondary);
+  margin-top: 3px;
+}
+
+.auditCardDetail {
+  font-size: 11px;
+  color: var(--tx-muted);
+  margin-top: 1px;
+}
+
+.loginHistoryTitle {
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--tx-secondary);
+  margin-top: 18px;
+  margin-bottom: 10px;
+}
+
+.loginHistoryRow {
+  background: var(--accent-tint);
+  border: 1.5px solid #C8E6C9;
+  border-radius: 10px;
+  padding: 9px 12px;
+  margin-bottom: 6px;
+}
+
+.loginHistoryTopRow {
+  display: flex;
+  justify-content: space-between;
+}
+
+.loginHistoryName {
+  font-size: 12.5px;
+  font-weight: 800;
+  color: var(--accent-text);
+}
+
+.loginHistoryTime {
+  font-size: 10px;
+  color: var(--tx-muted);
+}
+
+.loginHistoryMeta {
+  font-size: 10.5px;
+  color: var(--tx-muted);
+  margin-top: 1px;
+}
+
+/* ══════════════════════════════════════════════
+   ADMIN MEMBER TAB — PIN SUB-TAB
+   ══════════════════════════════════════════════ */
+.pinWarningBanner {
+  background: rgba(var(--amber-rgb), 0.07);
+  border: 1.5px solid #FDD87A;
+  border-radius: 10px;
+  padding: 10px 14px;
+  margin-bottom: 14px;
+  font-size: 12px;
+  color: var(--amber);
+}
+
+.pinReguGroup {
+  margin-bottom: 18px;
+}
+
+.pinReguHeader {
+  font-size: 12px;
+  font-weight: 800;
+  margin-bottom: 8px;
+  /* color: diset inline (dynamic: reguColors[r]) */
+}
+
+.pinMemberRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.pinMemberIcon {
+  font-size: 18px;
+}
+
+.pinMemberInfo {
+  flex: 1;
+}
+
+.pinMemberName {
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--tx-secondary);
+}
+
+.pinMemberJabatan {
+  font-size: 10px;
+  color: var(--tx-muted);
+}
+
+.pinMemberNote {
+  font-size: 10px;
+  color: var(--tx-ghost);
+}
+
+.pinResetBtn {
+  background: rgba(201, 27, 42, 0.1);
+  border: 1.5px solid #FFCDD2;
+  border-radius: 7px;
+  padding: 8px 11px;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--red);
+  cursor: pointer;
+  font-family: inherit;
+}
+
+/* ══════════════════════════════════════════════
+   MODAL: RESET PIN
+   ══════════════════════════════════════════════ */
+.resetPinBackdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.resetPinBox {
+  background: var(--bg-surface);
+  border-radius: 16px;
+  padding: 20px;
+  width: 100%;
+  max-width: 320px;
+}
+
+.resetPinTitle {
+  font-size: 16px;
+  font-weight: 900;
+  color: var(--tx-secondary);
+  margin-bottom: 4px;
+}
+
+.resetPinSub {
+  font-size: 12px;
+  color: var(--tx-muted);
+  margin-bottom: 14px;
+}
+
+.resetPinInput {
+  width: 100%;
+  border: 1.5px solid var(--border2);
+  border-radius: 9px;
+  padding: 10px 12px;
+  font-size: 15px;
+  font-family: inherit;
+  margin-bottom: 12px;
+  box-sizing: border-box;
+}
+
+.resetPinActions {
+  display: flex;
+  gap: 8px;
+}
+
+/* ══════════════════════════════════════════════
+   ADMIN MEMBER TAB — MIGRASI PIN LEGACY
+   ══════════════════════════════════════════════ */
+.migrasiWrap {
+  margin-bottom: 14px;
+}
+
+.migrasiCard {
+  background: var(--bg-surface);
+  border: 1.5px solid var(--border2);
+  border-radius: 12px;
+  padding: 12px 14px;
+}
+
+.migrasiTitle {
+  font-size: 13px;
+  font-weight: 900;
+  color: var(--tx-secondary);
+  margin-bottom: 4px;
+}
+
+.migrasiDesc {
+  font-size: 11.5px;
+  color: var(--tx-muted);
+  line-height: 1.6;
+  margin-bottom: 10px;
+}
+
+.migrasiRunBtn {
+  width: 100%;
+  padding: 11px;
+  border: none;
+  border-radius: 10px;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 900;
+  font-family: inherit;
+  /* background, cursor: diset inline (dynamic: migrasiLoading) */
+}
+
+.migrasiResultWrap {
+  margin-top: 10px;
+  font-size: 11.5px;
+  line-height: 1.8;
+}
+
+.migrasiResultMigratedTitle {
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.migrasiResultSkippedTitle {
+  color: var(--tx-secondary);
+  font-weight: 700;
+}
+
+.migrasiResultErrorTitle {
+  color: var(--red);
+  font-weight: 700;
+}
+
+.migrasiResultItem {
+  color: var(--tx-muted);
+  padding-left: 12px;
+}
+
+.migrasiResultErrorItem {
+  color: var(--red);
+  padding-left: 12px;
+  font-size: 11px;
+}
+
+/* ══════════════════════════════════════════════
+   ADMIN MEMBER TAB — RESET DATA (ZONA BAHAYA)
+   ══════════════════════════════════════════════ */
+.dangerZoneBanner {
+  background: rgba(201, 27, 42, 0.08);
+  border: 1.5px solid #FFCDD2;
+  border-radius: 10px;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+}
+
+.dangerZoneTitle {
+  font-size: 13px;
+  font-weight: 900;
+  color: var(--red);
+  margin-bottom: 4px;
+}
+
+.dangerZoneDesc {
+  font-size: 11.5px;
+  color: var(--tx-secondary);
+  line-height: 1.6;
+}
+
+.resetItemsCard {
+  background: var(--bg-surface);
+  border-radius: 12px;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+}
+
+.resetItemsTitle {
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--tx-secondary);
+  margin-bottom: 10px;
+}
+
+.resetItemRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+}
+
+.resetItemCheckbox {
+  width: 20px;
+  height: 20px;
+  border-radius: 5px;
+  border: 2px solid;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.15s;
+  /* border-color, background: diset inline (dynamic: checked) */
+}
+
+.resetItemCheckMark {
+  color: #fff;
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.resetItemInfo {
+  flex: 1;
+}
+
+.resetItemLabel {
+  font-size: 12.5px;
+  font-weight: 700;
+  /* color: diset inline (dynamic: checked) */
+}
+
+.resetItemDesc {
+  font-size: 10.5px;
+  color: var(--tx-muted);
+}
+
+.resetSubmitBtn {
+  width: 100%;
+  padding: 13px;
+  background: var(--red);
+  border: none;
+  border-radius: 12px;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 900;
+  cursor: pointer;
+  font-family: inherit;
+  letter-spacing: 0.5px;
+}
+
+/* ══════════════════════════════════════════════
+   MODAL: KONFIRMASI HAPUS DATA
+   ══════════════════════════════════════════════ */
+.resetConfirmBackdrop {
+  position: fixed;
+  inset: 0;
+  background: var(--scrim);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.resetConfirmBox {
+  background: var(--bg-surface);
+  border-radius: 18px;
+  padding: 22px;
+  width: 100%;
+  max-width: 340px;
+  box-shadow: var(--shadow-lg);
+}
+
+.resetConfirmTitle {
+  font-size: 18px;
+  font-weight: 900;
+  color: var(--red);
+  margin-bottom: 6px;
+}
+
+.resetConfirmDesc {
+  font-size: 12px;
+  color: var(--tx-muted);
+  margin-bottom: 16px;
+  line-height: 1.6;
+}
+
+.resetConfirmListLabel {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--tx-secondary);
+  margin-bottom: 6px;
+}
+
+.resetConfirmListBox {
+  background: rgba(201, 27, 42, 0.06);
+  border-radius: 8px;
+  padding: 8px 12px;
+  margin-bottom: 14px;
+  font-size: 11px;
+  color: var(--red);
+  line-height: 1.8;
+}
+
+.resetConfirmPinInput {
+  width: 100%;
+  border: 2px solid #D93025;
+  border-radius: 10px;
+  padding: 11px 14px;
+  font-size: 16px;
+  font-family: inherit;
+  margin-bottom: 14px;
+  box-sizing: border-box;
+  text-align: center;
+  letter-spacing: 4px;
+  color: var(--tx);
+  background: var(--bg-raised);
+}
+
+.resetConfirmActions {
+  display: flex;
+  gap: 8px;
+}
+
+.resetConfirmDeleteBtn {
+  flex: 2;
+  padding: 11px;
+  border: none;
+  border-radius: 10px;
+  color: #fff;
+  font-weight: 900;
+  font-size: 13px;
+  font-family: inherit;
+  /* background, cursor: diset inline (dynamic: loading / pin belum 6 digit) */
+}

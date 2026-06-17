@@ -1,0 +1,457 @@
+/* TabEvaluasi.module.css — SIPAMDAL
+   Migrasi dari tab-evaluasi.js (inline styles → CSS Modules)
+   Semua warna via CSS variables dari styles.css (:root)
+   ─────────────────────────────────────────────────────── */
+
+/* ══════════════════════════════════════════════
+   TOP BAR
+   ══════════════════════════════════════════════ */
+.topBar {
+  padding: 14px 16px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.topBarEyebrow {
+  font-size: 9.5px;
+  font-weight: 700;
+  color: var(--tx-ghost);
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+}
+
+.topBarTitle {
+  font-size: 20px;
+  font-weight: 900;
+  color: var(--tx-primary);
+  line-height: 1.1;
+}
+
+.topBarIcon {
+  font-size: 26px;
+}
+
+/* ══════════════════════════════════════════════
+   PERIOD FILTER PILLS
+   ══════════════════════════════════════════════ */
+.periodBar {
+  display: flex;
+  gap: 6px;
+  padding: 12px 16px 4px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.periodBar::-webkit-scrollbar {
+  display: none;
+}
+
+/* background, color, borderColor: diset inline (dynamic: active vs inactive) */
+.periodBtn {
+  flex-shrink: 0;
+  padding: 6px 14px;
+  border-radius: var(--radius-full);
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  border-width: 1.5px;
+  border-style: solid;
+  transition: all 0.15s;
+}
+
+.periodBtnActive {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+}
+
+.periodBtnInactive {
+  background: transparent;
+  color: var(--accent-text);
+  border-color: var(--br-default);
+}
+
+/* ══════════════════════════════════════════════
+   GLOBAL SUMMARY SECTION
+   ══════════════════════════════════════════════ */
+.summarySection {
+  padding: 10px 16px 4px;
+}
+
+.summaryCard {
+  background: var(--bg-surface);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 12px 12px 10px;
+}
+
+.summaryLabel {
+  font-size: 9.5px;
+  font-weight: 700;
+  color: var(--tx-muted);
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.statTileGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 8px;
+}
+
+/* ── StatTile component ── */
+/* background & border: diset inline via cRgba (dynamic color per tile) */
+.statTile {
+  border-radius: var(--radius-md);
+  padding: 10px 8px;
+  text-align: center;
+  border-width: 1.5px;
+  border-style: solid;
+}
+
+.statTileIcon {
+  font-size: 18px;
+}
+
+/* color: diset inline (dynamic per tile) */
+.statTileValue {
+  font-size: 22px;
+  font-weight: 900;
+  line-height: 1.1;
+  margin-top: 2px;
+}
+
+.statTileLabel {
+  font-size: 9.5px;
+  color: var(--tx-muted);
+  margin-top: 3px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+/* ── Avg handle time row ── */
+/* background: diset inline (dynamic: ada data vs tidak) */
+.avgHandleRow {
+  margin-top: 10px;
+  padding: 8px 12px;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.avgHandleIcon {
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+.avgHandleDesc {
+  font-size: 10px;
+  color: var(--tx-muted);
+  font-weight: 600;
+}
+
+/* color: diset inline (dynamic: ada data vs tidak) */
+.avgHandleValue {
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.avgHandleCount {
+  margin-left: auto;
+  font-size: 10px;
+  color: var(--tx-ghost);
+  flex-shrink: 0;
+}
+
+/* ── Highlight cards: paling aktif & tidak aktif ── */
+.highlightRow {
+  margin-top: 8px;
+  display: flex;
+  gap: 6px;
+}
+
+.highlightCardGreen {
+  flex: 1;
+  padding: 7px 10px;
+  border-radius: var(--radius-sm);
+  background: rgba(46, 125, 50, 0.08);
+  border: 1px solid rgba(46, 125, 50, 0.2);
+}
+
+.highlightCardRed {
+  flex: 1;
+  padding: 7px 10px;
+  border-radius: var(--radius-sm);
+  background: rgba(var(--red-rgb), 0.06);
+  border: 1px solid rgba(var(--red-rgb), 0.18);
+}
+
+.highlightEyebrow {
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+
+.highlightEyebrowGreen { color: var(--green); }
+.highlightEyebrowRed   { color: var(--red); }
+
+.highlightName {
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--tx-primary);
+  margin-top: 2px;
+}
+
+.highlightSub {
+  font-size: 10px;
+  color: var(--tx-ghost);
+}
+
+/* ══════════════════════════════════════════════
+   LEADERBOARDS SECTION
+   ══════════════════════════════════════════════ */
+.leaderSection {
+  padding: 10px 16px 8px;
+}
+
+/* ── LeaderCard ── */
+.leaderCard {
+  background: var(--bg-raised);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 12px 14px 10px;
+  margin-bottom: 12px;
+}
+
+.leaderCardHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.leaderCardIcon {
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.leaderCardInfo {
+  flex: 1;
+}
+
+.leaderCardTitle {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--tx-primary);
+}
+
+.leaderCardNote {
+  font-size: 10px;
+  color: var(--tx-ghost);
+  margin-top: 1px;
+}
+
+/* badge label (valueLabel): color, background, border diset inline (dynamic per card) */
+.leaderCardBadge {
+  font-size: 10px;
+  font-weight: 700;
+  border-radius: var(--radius-full);
+  padding: 2px 8px;
+  border-width: 1px;
+  border-style: solid;
+  flex-shrink: 0;
+}
+
+.leaderEmpty {
+  text-align: center;
+  padding: 16px 0;
+  color: var(--tx-ghost);
+  font-size: 12px;
+}
+
+/* ── LeaderCard row ── */
+/* background: diset inline (dynamic: isTop ? cRgba : transparent) */
+.leaderRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 8px;
+  border-radius: var(--radius-sm);
+  margin-bottom: 2px;
+}
+
+.leaderRowRank {
+  min-width: 24px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.leaderRowBody {
+  flex: 1;
+  min-width: 0;
+}
+
+.leaderRowNameWrap {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+
+.leaderRowName {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--tx-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.leaderRowRegu {
+  font-size: 10px;
+  color: var(--tx-ghost);
+  flex-shrink: 0;
+}
+
+/* ── ScoreBar ── */
+.scoreBarTrack {
+  height: 5px;
+  border-radius: var(--radius-full);
+  background: rgba(0, 0, 0, 0.07);
+  overflow: hidden;
+  margin-top: 3px;
+}
+
+/* width & background: diset inline (dynamic: pct%, color) */
+.scoreBarFill {
+  height: 100%;
+  border-radius: var(--radius-full);
+  transition: width 0.4s ease;
+}
+
+/* color: diset inline (dynamic: value > 0 ? color : ghost) */
+.leaderRowValue {
+  font-size: 14px;
+  font-weight: 800;
+  min-width: 28px;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+/* ── Expand button ── */
+.expandBtn {
+  margin-top: 6px;
+  width: 100%;
+  background: transparent;
+  border: none;
+  font-size: 11px;
+  color: var(--accent-text);
+  cursor: pointer;
+  padding: 4px 0;
+  font-family: inherit;
+}
+
+.expandBtn:hover {
+  text-decoration: underline;
+}
+
+/* ── Medal (rank > 3) ── */
+.medalNumber {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--tx-ghost);
+  min-width: 20px;
+  text-align: center;
+  display: inline-block;
+}
+
+/* ── Paket handle time card ── */
+.pkgCard {
+  background: var(--bg-raised);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 12px 14px 10px;
+  margin-bottom: 12px;
+}
+
+.pkgCardHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.pkgCardIcon {
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.pkgCardInfo {
+  flex: 1;
+}
+
+.pkgCardTitle {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--tx-primary);
+}
+
+.pkgCardNote {
+  font-size: 10px;
+  color: var(--tx-ghost);
+  margin-top: 1px;
+}
+
+.pkgRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 8px;
+  border-radius: var(--radius-sm);
+  margin-bottom: 2px;
+}
+
+.pkgRowRank {
+  min-width: 24px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.pkgRowBody {
+  flex: 1;
+  min-width: 0;
+}
+
+.pkgRowRecipient {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--tx-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.pkgRowType {
+  font-size: 10px;
+  color: var(--tx-ghost);
+}
+
+/* color: diset inline (dynamic: < 1j → green, < 1hr → amber, else red) */
+.pkgRowDur {
+  font-size: 12px;
+  font-weight: 800;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* ── Footer note ── */
+.footerNote {
+  text-align: center;
+  font-size: 10px;
+  color: var(--tx-ghost);
+  padding: 4px 0 12px;
+}

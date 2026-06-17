@@ -1,0 +1,977 @@
+/* TabWelcome.module.css — SIPAMDAL
+   Migrasi dari tab-welcome.js (inline styles → CSS Modules)
+   Semua warna via CSS variables dari styles.css (:root)
+   Catatan: .pin-dot, .pin-btn-num, .pin-btn-back, .pin-btn-del,
+   .hero-card-glass sudah didefinisikan global di styles.css — TIDAK
+   diduplikasi di sini, tetap dirujuk sebagai className string biasa.
+   ─────────────────────────────────────────────────────── */
+
+/* ══════════════════════════════════════════════
+   MODAL: KONFIRMASI PANIC (tombol darurat)
+   ══════════════════════════════════════════════ */
+.panicBackdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 3000;
+  background: rgba(0, 0, 0, 0.65);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 24px;
+}
+
+.panicBox {
+  background: #fff;
+  border-radius: 20px;
+  padding: 28px 24px;
+  max-width: 320px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 20px 60px rgba(220, 38, 38, 0.35);
+}
+
+.panicEmoji {
+  font-size: 48px;
+  margin-bottom: 8px;
+}
+
+.panicTitle {
+  font-size: 17px;
+  font-weight: 800;
+  color: #D93025;
+  margin-bottom: 8px;
+}
+
+.panicDesc {
+  font-size: 13px;
+  color: #374151;
+  margin-bottom: 20px;
+  line-height: 1.5;
+}
+
+.panicActions {
+  display: flex;
+  gap: 10px;
+}
+
+.panicCancelBtn {
+  flex: 1;
+  padding: 12px 0;
+  border-radius: 12px;
+  border: 2px solid #e5e7eb;
+  background: #F9FAFB;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+  color: #374151;
+}
+
+.panicSendBtn {
+  flex: 1;
+  padding: 12px 0;
+  border-radius: 12px;
+  border: none;
+  background: #D93025;
+  font-size: 14px;
+  font-weight: 800;
+  cursor: pointer;
+  font-family: inherit;
+  color: #fff;
+  letter-spacing: 0.3px;
+}
+
+/* ══════════════════════════════════════════════
+   BANNER: PANIC TERKIRIM
+   ══════════════════════════════════════════════ */
+.panicSentBanner {
+  position: fixed;
+  top: 16px;
+  left: 16px;
+  right: 16px;
+  z-index: 2900;
+  background: #D93025;
+  color: #fff;
+  border-radius: 14px;
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 8px 32px rgba(220, 38, 38, 0.4);
+  animation: slideUp 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.panicSentIcon {
+  font-size: 24px;
+}
+
+.panicSentTitle {
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.panicSentSub {
+  font-size: 11px;
+  opacity: 0.85;
+  margin-top: 2px;
+}
+
+/* ══════════════════════════════════════════════
+   OVERLAY: PENCARIAN CEPAT (full-screen)
+   ══════════════════════════════════════════════ */
+.searchOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 2500;
+  background: var(--bg-base);
+  display: flex;
+  flex-direction: column;
+  animation: searchSlideDown 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.searchHeaderBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 52px 18px 10px;
+  border-bottom: 1px solid var(--br-subtle);
+  background: var(--bg-surface);
+  flex-shrink: 0;
+}
+
+.searchHeaderTitle {
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--tx-primary);
+  letter-spacing: 0.2px;
+}
+
+.searchCloseBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  display: flex;
+  align-items: center;
+  border-radius: 8px;
+}
+
+.searchInputArea {
+  padding: 14px 16px 0;
+  flex-shrink: 0;
+  background: var(--bg-base);
+}
+
+.searchInputWrap {
+  position: relative;
+  margin-bottom: 10px;
+}
+
+.searchInput {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 12px 40px 12px 14px;
+  background: var(--bg-surface);
+  border: 1.5px solid var(--accent);
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--tx);
+  font-family: inherit;
+  outline: none;
+}
+
+.searchClearBtn {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: var(--tx-muted);
+  font-size: 20px;
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+}
+
+.searchIconSlot {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+}
+
+.searchFilterRow {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  padding-bottom: 10px;
+  scrollbar-width: none;
+}
+
+.searchFilterChip {
+  flex-shrink: 0;
+  padding: 5px 13px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+  white-space: nowrap;
+  /* background, border, color: diset inline (dynamic: filter aktif) */
+}
+
+.searchResultsScroll {
+  flex: 1;
+  overflow-y: auto;
+  padding: 4px 16px 32px;
+  -webkit-overflow-scrolling: touch;
+}
+
+.searchEmptyState {
+  text-align: center;
+  padding: 40px 16px;
+  color: var(--tx-muted);
+}
+
+.searchEmptyTitle {
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.searchEmptySub {
+  font-size: 11px;
+}
+
+.searchResultCount {
+  font-size: 11px;
+  color: var(--tx-muted);
+  font-weight: 700;
+  margin-bottom: 10px;
+  padding-top: 4px;
+}
+
+.searchResultCountQuery {
+  color: var(--accent);
+}
+
+.searchResultCard {
+  background: var(--bg-surface);
+  border: 1px solid var(--br-subtle);
+  border-radius: 12px;
+  padding: 11px 14px;
+  margin-bottom: 8px;
+  /* border-left color: diset inline (dynamic: r.color) */
+}
+
+.searchResultHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 3px;
+}
+
+.searchResultHeadLeft {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.searchResultTitle {
+  font-size: 13.5px;
+  font-weight: 800;
+  color: var(--tx);
+}
+
+.searchResultBadge {
+  font-size: 10px;
+  font-weight: 700;
+  border-radius: 8px;
+  padding: 2px 7px;
+  flex-shrink: 0;
+  /* color, background, border: diset inline (dynamic: r.color) */
+}
+
+.searchResultSub {
+  font-size: 11.5px;
+  color: var(--tx-muted);
+  padding-left: 26px;
+}
+
+/* ══════════════════════════════════════════════
+   WELCOME SCREEN — KONTAINER UTAMA
+   ══════════════════════════════════════════════ */
+.welcomeRoot {
+  min-height: 100vh;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  transition: opacity 0.4s ease;
+  /* background, opacity: diset inline (dynamic: bgHero, mounted) */
+}
+
+.heroArea {
+  flex: 1;
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0 24px;
+  padding-bottom: var(--ws-card-h, 290px);
+  transition: opacity 0.55s ease, transform 0.55s ease;
+  /* opacity, transform: diset inline (dynamic: mounted) */
+}
+
+.heroCard {
+  width: 100%;
+  max-width: 400px;
+  padding: 28px 24px 22px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: hidden;
+  user-select: none;
+  /* className "hero-card-glass" (global, lihat styles.css) ditambahkan bersama class ini */
+}
+
+/* ══════════════════════════════════════════════
+   HERO SLIDE: PIMPINAN ALERT
+   ══════════════════════════════════════════════ */
+.alertSlide {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  padding: 4px 0 0;
+}
+
+.alertPulseBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 14px;
+  border-radius: 99px;
+  margin-bottom: 16px;
+  /* background, border: diset inline (dynamic: aBg, aCol) */
+}
+
+.alertPulseDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  animation: pimpinanDotPulse 1s ease infinite;
+  /* background, box-shadow: diset inline (dynamic: aCol) */
+}
+
+.alertPulseLabel {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1.3px;
+  text-transform: uppercase;
+  /* color: diset inline (dynamic: aCol) */
+}
+
+.alertEmoji {
+  font-size: 44px;
+  line-height: 1;
+  margin-bottom: 12px;
+}
+
+.alertStatusText {
+  font-size: 18px;
+  font-weight: 900;
+  letter-spacing: -0.5px;
+  color: var(--tx-primary);
+  text-align: center;
+  margin-bottom: 6px;
+}
+
+.alertDismissPill {
+  margin-top: 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 14px;
+  border-radius: 99px;
+  background: rgba(0, 0, 0, 0.06);
+  cursor: pointer;
+}
+
+.alertDismissLabel {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--tx-muted);
+}
+
+/* ══════════════════════════════════════════════
+   HERO SLIDE: IDENTITY
+   ══════════════════════════════════════════════ */
+.identitySlide {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  gap: 0;
+}
+
+.identityBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 5px 16px;
+  border-radius: 99px;
+  margin-bottom: 18px;
+  /* background, border: diset inline (dynamic: accentCol) */
+}
+
+.identityBadgeDot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  /* background, box-shadow: diset inline (dynamic: accentCol) */
+}
+
+.identityBadgeLabel {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  /* color: diset inline (dynamic: accentCol) */
+}
+
+.identityName {
+  font-size: 36px;
+  font-weight: 900;
+  letter-spacing: -1px;
+  color: var(--tx-primary);
+  text-align: center;
+  line-height: 1.05;
+  margin-bottom: 5px;
+}
+
+.identityRegu {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  color: var(--tx-ghost);
+  margin-bottom: 10px;
+}
+
+.identityQuote {
+  font-size: 11.5px;
+  font-weight: 500;
+  text-align: center;
+  line-height: 1.5;
+  max-width: 220px;
+  font-style: italic;
+  margin-bottom: 16px;
+  /* color: diset inline (dynamic: accentCol) */
+}
+
+.identityUnderline {
+  width: 44px;
+  height: 3px;
+  border-radius: 99px;
+  /* background: diset inline (dynamic: gradient accentCol) */
+}
+
+/* ══════════════════════════════════════════════
+   HERO SLIDE: POS / PATROLI (shared layout angka besar)
+   ══════════════════════════════════════════════ */
+.statSlide {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.statLabel {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--tx-muted);
+  margin-bottom: 12px;
+}
+
+.statBigNumber {
+  font-size: 56px;
+  font-weight: 900;
+  letter-spacing: -2px;
+  line-height: 1;
+  margin-bottom: 4px;
+  /* color: diset inline (dynamic: isiCol / col) */
+}
+
+.statSubLabel {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--tx-secondary);
+  margin-bottom: 16px;
+}
+
+.statBarTrack {
+  width: 100%;
+  height: 6px;
+  border-radius: 99px;
+  background: rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+}
+
+.statBarFill {
+  height: 100%;
+  border-radius: 99px;
+  transition: width 0.6s ease;
+  /* background, width: diset inline (dynamic) */
+}
+
+.statFootnote {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--tx-muted);
+  margin-top: 8px;
+}
+
+/* ══════════════════════════════════════════════
+   HERO SLIDE: INSTRUKSI / BROADCAST
+   ══════════════════════════════════════════════ */
+.infoSlide {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  gap: 0;
+}
+
+.infoBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: 99px;
+  margin-bottom: 14px;
+  /* background, border: diset inline (dynamic: iCol) */
+}
+
+.infoBadgeEmoji {
+  font-size: 12px;
+}
+
+.infoBadgeLabel {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  /* color: diset inline (dynamic: iCol) */
+}
+
+.infoTitle {
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--tx-primary);
+  text-align: center;
+  line-height: 1.35;
+  margin-bottom: 8px;
+}
+
+.infoBody {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--tx-ghost);
+  text-align: center;
+  line-height: 1.5;
+  max-height: 52px;
+  overflow: hidden;
+}
+
+.broadcastBody {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--tx-primary);
+  text-align: center;
+  line-height: 1.5;
+}
+
+/* ══════════════════════════════════════════════
+   DOT INDICATOR (carousel hero)
+   ══════════════════════════════════════════════ */
+.dotIndicatorWrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  margin-top: 18px;
+}
+
+.dotIndicatorRow {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.dotIndicatorItem {
+  height: 7px;
+  border-radius: 99px;
+  transition: all 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+  cursor: pointer;
+  /* width, background, box-shadow: diset inline (dynamic: aktif/tidak) */
+}
+
+.dotIndicatorHint {
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  color: rgba(0, 0, 0, 0.28);
+  margin-top: 2px;
+}
+
+/* ══════════════════════════════════════════════
+   BOTTOM SHEET CARD (Livin-style)
+   ══════════════════════════════════════════════ */
+.bottomSheet {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  border-radius: 24px 24px 0 0;
+  border-bottom: none;
+  padding: 0 18px 28px;
+  transition: opacity 0.65s ease 0.1s, transform 0.65s ease 0.1s,
+    border 0.4s ease, box-shadow 0.4s ease;
+  /* background, border, box-shadow, animation, opacity, transform:
+     diset inline (dynamic: isLight, pimpinanAlert, mounted) */
+}
+
+.dragHandleWrap {
+  display: flex;
+  justify-content: center;
+  padding: 12px 0 14px;
+}
+
+.dragHandle {
+  width: 36px;
+  height: 4px;
+  border-radius: 99px;
+  background: rgba(0, 0, 0, 0.15);
+}
+
+/* ══════════════════════════════════════════════
+   ALERT BANNER (di dalam bottom sheet, saat pimpinanAlert aktif)
+   ══════════════════════════════════════════════ */
+.alertBanner {
+  margin: 0 0 10px;
+  padding: 8px 14px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  /* background, border: diset inline (dynamic: alertCol) */
+}
+
+.alertBannerDot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  animation: pimpinanDotPulse 1s ease infinite;
+  /* background, box-shadow: diset inline (dynamic: alertCol) */
+}
+
+.alertBannerText {
+  font-size: 10.5px;
+  font-weight: 700;
+  flex: 1;
+  /* color: diset inline (dynamic: alertCol) */
+}
+
+.alertBannerCloseBtn {
+  font-size: 10px;
+  font-weight: 800;
+  cursor: pointer;
+  padding: 3px 8px;
+  border-radius: 99px;
+  white-space: nowrap;
+  /* color, background: diset inline (dynamic: alertCol) */
+}
+
+/* ══════════════════════════════════════════════
+   ACTION BUTTONS (scrollable circle row)
+   ══════════════════════════════════════════════ */
+.actionScrollWrap {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  scroll-snap-type: x mandatory;
+}
+
+.actionScrollWrap::-webkit-scrollbar {
+  display: none;
+}
+
+.actionRow {
+  display: flex;
+  gap: 14px;
+  padding-left: 12px;
+  padding-right: 12px;
+  width: max-content;
+  margin-bottom: 4px;
+}
+
+.actionItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 7px;
+  scroll-snap-align: start;
+  transition: opacity 0.4s ease, transform 0.5s ease;
+  /* opacity, transform, transition-delay: diset inline (dynamic: mounted, index) */
+}
+
+.actionCircleBtn {
+  width: 60px;
+  height: 60px;
+  border-radius: 20px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.18s;
+  /* cursor, background, border, box-shadow, opacity, filter:
+     diset inline (dynamic: btn.color, btn.disabled, alertActive) */
+}
+
+.actionBadge {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  min-width: 18px;
+  height: 18px;
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 9px;
+  font-weight: 800;
+  color: #fff;
+  padding: 0 4px;
+  /* background, box-shadow: diset inline (dynamic: btn.color) */
+}
+
+.actionLabel {
+  font-size: 10px;
+  font-weight: 600;
+  text-align: center;
+  line-height: 1.2;
+  max-width: 64px;
+  transition: color 0.2s;
+  /* color: diset inline (dynamic: btn.disabled, alertActive) */
+}
+
+.actionScrollTrackWrap {
+  display: flex;
+  justify-content: center;
+  margin-top: 6px;
+  margin-bottom: 2px;
+}
+
+.actionScrollTrack {
+  height: 3px;
+  border-radius: 99px;
+  background: rgba(0, 0, 0, 0.08);
+  position: relative;
+  overflow: hidden;
+  /* width: diset inline (dynamic: trackW) */
+}
+
+.actionScrollThumb {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  border-radius: 99px;
+  transition: left 0.15s ease;
+  /* left, width, background: diset inline (dynamic: thumbX, thumbW, accentCol) */
+}
+
+/* ══════════════════════════════════════════════
+   DIVIDER
+   ══════════════════════════════════════════════ */
+.sheetDivider {
+  height: 1px;
+  background: rgba(var(--orb-rgb), 0.25);
+  margin: 16px 0 18px;
+}
+
+/* ══════════════════════════════════════════════
+   PIN ENTRY SECTION
+   ══════════════════════════════════════════════ */
+.pinSection {
+  animation: slideUp 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.pinSectionLabel {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--tx-ghost);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  text-align: center;
+  margin-bottom: 14px;
+}
+
+.pinShakeWrap {
+  /* animation: diset inline (dynamic: shake ? "shake .4s" : "none") */
+}
+
+.pinDotsRow {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  margin-bottom: 8px;
+  /* css var --pin-col-rgb: diset inline (dynamic: pinRgb(pinCol)) */
+}
+
+.pinError {
+  font-size: 11px;
+  color: var(--red);
+  text-align: center;
+  margin-bottom: 10px;
+  font-weight: 700;
+}
+
+.pinKeypad {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 8px;
+  margin-top: 12px;
+  /* css var --pin-col-rgb: diset inline (dynamic: pinRgb(pinCol)) */
+}
+
+/* ══════════════════════════════════════════════
+   LOGIN ACTIONS (sebelum PIN dibuka)
+   ══════════════════════════════════════════════ */
+.loginActionsWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.loginPinBtn {
+  width: 100%;
+  padding: 13px 0;
+  border-radius: 16px;
+  border: none;
+  cursor: pointer;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  font-family: inherit;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.3s;
+  /* background, box-shadow: diset inline (dynamic: statusColor) */
+}
+
+.loginBioBtn {
+  width: 100%;
+  padding: 12px 0;
+  border-radius: 16px;
+  font-size: 13px;
+  font-weight: 700;
+  font-family: inherit;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.3s;
+  /* border, cursor, background, color, opacity: diset inline (dynamic: statusColor, bioLoading) */
+}
+
+.loginSwitchUserBtn {
+  width: 100%;
+  padding: 10px 0;
+  border-radius: 14px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  background: transparent;
+  color: var(--tx-ghost);
+  font-size: 12px;
+  font-weight: 600;
+  font-family: inherit;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+/* ══════════════════════════════════════════════
+   KEYFRAMES
+   ══════════════════════════════════════════════ */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-7px); }
+  40%, 80% { transform: translateX(7px); }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes searchSlideDown {
+  from { opacity: 0; transform: translateY(-100%); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes heroSlideInR {
+  from { opacity: 0; transform: translateX(38px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes heroSlideInL {
+  from { opacity: 0; transform: translateX(-38px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes pimpinanDotPulse {
+  0%, 100% { box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.4); }
+  50% { box-shadow: 0 0 0 6px rgba(14, 165, 233, 0.1); }
+}
+
+@keyframes borderPulseBiru {
+  0%, 100% {
+    box-shadow: 0 -8px 40px rgba(14, 165, 233, 0.15), 0 0 0 0 rgba(14, 165, 233, 0);
+  }
+  50% {
+    box-shadow: 0 -8px 40px rgba(14, 165, 233, 0.5), 0 0 0 6px rgba(14, 165, 233, 0.18);
+  }
+}
+
+@keyframes borderPulseMerah {
+  0%, 100% {
+    box-shadow: 0 -8px 40px rgba(201, 27, 42, 0.15), 0 0 0 0 rgba(201, 27, 42, 0);
+  }
+  50% {
+    box-shadow: 0 -8px 40px rgba(201, 27, 42, 0.5), 0 0 0 6px rgba(201, 27, 42, 0.18);
+  }
+}
+
+/* Catatan: .hero-slide / .hero-slide-back (animasi masuk slide hero)
+   tetap di-inject via React.createElement("style", ...) inline di JS
+   karena classNamenya dipakai bersamaan dengan key={heroSlide} untuk
+   re-trigger animasi — dipertahankan apa adanya, tidak dipindah ke
+   module ini supaya re-trigger animasi tetap berfungsi. */

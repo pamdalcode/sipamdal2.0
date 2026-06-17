@@ -1,0 +1,201 @@
+/* TabSearch.module.css — SIPAMDAL
+   Migrasi dari tab-search.js (inline styles → CSS Modules)
+   Semua warna via CSS variables dari styles.css (:root)
+   ─────────────────────────────────────────────────────── */
+
+/* ── Wrapper utama ── */
+.wrapper {
+  /* container default, tab-view padding sudah di styles.css */
+}
+
+/* ── Search input wrapper ── */
+.inputWrap {
+  position: relative;
+  margin-bottom: 12px;
+}
+
+.input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 11px 40px 11px 14px;
+  background: var(--bg-surface);
+  border: 1.5px solid var(--border2);
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--tx-primary);
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.input:focus {
+  border-color: var(--accent);
+}
+
+/* ikon search (span) & tombol clear (button) — posisi absolut kanan */
+.inputIcon {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 16px;
+  pointer-events: none;
+  color: var(--tx-muted);
+}
+
+.clearBtn {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: var(--tx-muted);
+  font-size: 18px;
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+}
+
+.clearBtn:hover {
+  color: var(--tx-primary);
+}
+
+/* ── Filter pills ── */
+.filterBar {
+  display: flex;
+  gap: 7px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+  margin-bottom: 14px;
+  scrollbar-width: none;
+}
+
+.filterBar::-webkit-scrollbar {
+  display: none;
+}
+
+.pill {
+  flex-shrink: 0;
+  padding: 5px 12px;
+  border-radius: var(--radius-full);
+  background: var(--bg-surface);
+  border: 1.5px solid var(--border);
+  color: var(--tx-muted);
+  font-size: 11.5px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+  white-space: nowrap;
+  transition: background 0.12s, border-color 0.12s, color 0.12s;
+}
+
+.pill.active {
+  background: var(--pill-active);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* ── Empty states ── */
+.emptyState {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--tx-muted);
+}
+
+.emptyIcon {
+  font-size: 36px;
+  margin-bottom: 10px;
+}
+
+.emptyTitle {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--tx-primary);
+}
+
+.emptyHint {
+  font-size: 11.5px;
+  margin-top: 6px;
+  color: var(--tx-muted);
+}
+
+/* ── Hasil: label jumlah ── */
+.resultCount {
+  font-size: 11.5px;
+  color: var(--tx-muted);
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.resultCountQuery {
+  color: var(--accent);
+}
+
+/* ── Result card ── */
+/* border-left color di-set via inline style (dynamic per item: r.color) */
+.resultCard {
+  background: var(--bg-surface);
+  border: 1.5px solid var(--border2);
+  border-radius: var(--radius-md);
+  padding: 11px 14px;
+  margin-bottom: 8px;
+  /* border-left-width + color: diset inline (dynamic) */
+  border-left-width: 4px;
+  border-left-style: solid;
+  transition: box-shadow 0.15s;
+}
+
+.resultCard:hover {
+  box-shadow: var(--shadow);
+}
+
+/* ── Card row atas: title + badge ── */
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 3px;
+}
+
+.cardTitleWrap {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.cardIcon {
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.cardTitle {
+  font-size: 13.5px;
+  font-weight: 800;
+  color: var(--tx-primary);
+}
+
+/* badge: warna (color, background, border) diset inline (dynamic per item) */
+.cardBadge {
+  font-size: 10px;
+  font-weight: 700;
+  border-radius: var(--radius-xs);
+  padding: 2px 7px;
+  flex-shrink: 0;
+  /* color / background / border: inline (dynamic) */
+}
+
+/* ── Card sub & timestamp ── */
+.cardSub {
+  font-size: 11.5px;
+  color: var(--tx-muted);
+  padding-left: 25px;
+}
+
+.cardTs {
+  font-size: 10.5px;
+  color: var(--tx-muted);
+  padding-left: 25px;
+  margin-top: 2px;
+}

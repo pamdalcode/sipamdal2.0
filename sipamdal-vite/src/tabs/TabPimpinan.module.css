@@ -1,0 +1,97 @@
+/* TabPimpinan.module.css — SIPAMDAL
+   Sesi 4: Styles untuk TabPimpinan
+   Source: styles.css (class pimp-* + pimpinan-shell)
+*/
+
+/* ── Shell override (diterapkan di AppShell saat role pimpinan) ── */
+.pimpinanShell {
+  max-width: 100% !important;
+  margin: 0 !important;
+  box-shadow: none !important;
+  background: #F0F7FF;
+}
+
+.pimpinanShell :global(.v3-dock) {
+  left: 0 !important;
+  transform: none !important;
+  width: 100% !important;
+  border-radius: 0 !important;
+}
+
+.pimpinanShell :global(.tab-view) {
+  padding-bottom: calc(68px + env(safe-area-inset-bottom)) !important;
+}
+
+/* ── Layout: single column default (mobile) ── */
+.pimpLayout {
+  display: block;
+}
+
+.pimpCol {
+  display: block;
+  padding: 0 16px;
+}
+
+.pimpTopbar {
+  /* base: inline styles di komponen */
+}
+
+/* ── 2-kolom aktif mulai 620px (tablet / landscape HP) ── */
+@media (min-width: 620px) {
+  .pimpTopbar {
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+  }
+
+  .pimpLayout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    align-items: start;
+    padding: 8px 12px 0;
+    box-sizing: border-box;
+  }
+
+  .pimpCol {
+    min-width: 0;
+    padding: 0; /* reset mobile padding */
+  }
+
+  /* Hapus margin kiri-kanan card di dalam kolom */
+  .pimpCol > * {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+}
+
+/* ── Breakpoint besar: 900px ── */
+@media (min-width: 900px) {
+  .pimpTopbar {
+    padding-left: max(20px, calc((100vw - 1280px) / 2 + 20px)) !important;
+    padding-right: max(20px, calc((100vw - 1280px) / 2 + 20px)) !important;
+  }
+
+  .pimpLayout {
+    gap: 16px;
+    max-width: 1280px;
+    margin: 12px auto 0;
+    padding: 0 20px;
+  }
+
+  .pimpinanShell :global(main) {
+    padding-bottom: calc(80px + env(safe-area-inset-bottom)) !important;
+  }
+
+  .pimpinanShell :global(.v3-dock) {
+    padding: 6px 24px calc(6px + env(safe-area-inset-bottom)) !important;
+  }
+}
+
+/* ── Breakpoint besar: 1280px ── */
+@media (min-width: 1280px) {
+  .pimpLayout {
+    max-width: 1440px;
+    padding: 0 32px;
+    gap: 24px;
+  }
+}

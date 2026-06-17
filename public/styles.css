@@ -1,0 +1,90 @@
+/* ============================================================
+   SIPAMDAL — Global CSS Variables
+   File ini harus ada di /public/styles.css
+   ============================================================ */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+  font-family: 'DM Sans', system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  background: #f4fafd;
+}
+
+#root {
+  height: 100%;
+}
+
+/* ── Light Mode (default) ── */
+:root, html.light {
+  /* Accent / Brand */
+  --accent:         #0EA5E9;
+  --accent-2:       #0284C7;
+  --accent-light:   #E0F2FE;
+  --accent-tint:    rgba(14,165,233,0.10);
+  --accent-text:    #0369A1;
+
+  /* Backgrounds */
+  --bg-base:        #F4FAFD;
+  --bg-surface:     #FFFFFF;
+  --bg-raised:      #F0F7FB;
+  --bg-card:        #FFFFFF;
+  --bg-overlay:     rgba(0,0,0,0.40);
+
+  /* Text */
+  --tx:             #1E293B;
+  --tx-primary:     #0F172A;
+  --tx-secondary:   #334155;
+  --tx-muted:       #64748B;
+  --tx-ghost:       #94A3B8;
+
+  /* Borders */
+  --border:         #E2EEF5;
+  --border2:        #CBD5E1;
+  --br-default:     #E2EEF5;
+  --br-subtle:      #F1F5F9;
+
+  /* Semantic colors */
+  --green:          #22C55E;
+  --green-light:    #DCFCE7;
+  --green-rgb:      34,197,94;
+
+  --red:            #EF4444;
+  --red-bright:     #DC2626;
+  --red-rgb:        239,68,68;
+
+  --amber:          #F59E0B;
+  --amber-bright:   #D97706;
+  --amber-rgb:      245,158,11;
+  --amber-text:     #92400E;
+
+  --violet:         #8B5CF6;
+  --violet-rgb:     139,92,246;
+
+  /* Misc */
+  --orb-rgb:        14,165,233;
+  --scrim:          rgba(0,0,0,0.35);
+  --shadow:         0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.05);
+  --shadow-lg:      0 4px 16px rgba(0,0,0,0.10);
+  --pill-active:    #0EA5E9;
+  --whatsapp-dark:  #075E54;
+  --ws-card-h:      56px;
+
+  /* Border radius */
+  --radius-xs:      4px;
+  --radius-sm:      6px;
+  --radius-md:      10px;
+  --radius-lg:      14px;
+  --radius-xl:      20px;
+  --radius-full:    9999px;
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 99px; }

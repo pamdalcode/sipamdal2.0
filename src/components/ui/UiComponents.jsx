@@ -12,6 +12,7 @@ import {
   getReguHari,
 } from "../../utils/utils.js";
 import { verifyPinFS, DEFAULT_PINS } from "../../stores/useAuthStore.js";
+import { useAppStore } from "../../stores/useAppStore.js";
 import styles from "./UiComponents.module.css";
 
 // ── Keamanan Pilih Pos Manual (shared constants & helpers) ───────────────────
@@ -1134,7 +1135,7 @@ export function CamScanner({ onScan, onClose, customDecode, customAreas }) {
 const POS_QR_PREFIX = "BBPKA2-PAMDAL-POS-";
 const decPosQR = (v) => (v && v.startsWith(POS_QR_PREFIX) ? v.replace(POS_QR_PREFIX, "").replace(/_/g, " ") : null);
 
-export function PosQRHero({ posAssign, setPosAssign, currentUser, toast, canEdit = true, isUserLibur }) {
+export function PosQRHero({ posAssign, setPosAssign, posShiftKey, currentUser, toast, canEdit = true, isUserLibur }) {
   const [scanOpen, setScanOpen] = useState(false);
   const [showManual, setShowManual] = useState(false);
   const [manualVerify, setManualVerify] = useState(null); // { pos } — wajib verifikasi sebelum assign manual
@@ -1153,7 +1154,7 @@ export function PosQRHero({ posAssign, setPosAssign, currentUser, toast, canEdit
       const updated = { ...posAssign };
       updated[pos] = [...(updated[pos] || []).filter((x) => x !== targetName), myName];
       updated[myCurrentPos] = [...(updated[myCurrentPos] || []).filter((x) => x !== myName), targetName];
-      setPosAssign(updated);
+      setPosAssign(posShiftKey, updated);
       setManualLog((() => {
         try { return JSON.parse(localStorage.getItem("sipamdal_manual_log") || "[]"); }
         catch { return []; }
@@ -1170,7 +1171,7 @@ export function PosQRHero({ posAssign, setPosAssign, currentUser, toast, canEdit
     const updated = { ...posAssign };
     POS_LIST.forEach((p) => { if (updated[p]) updated[p] = updated[p].filter((m) => m !== myName); });
     updated[pos] = [...(updated[pos] || []), myName];
-    setPosAssign(updated);
+    setPosAssign(posShiftKey, updated);
     setManualLog((() => {
       try { return JSON.parse(localStorage.getItem("sipamdal_manual_log") || "[]"); }
       catch { return []; }
@@ -1218,7 +1219,7 @@ export function PosQRHero({ posAssign, setPosAssign, currentUser, toast, canEdit
     const updated = { ...posAssign };
     POS_LIST.forEach((p) => { if (updated[p]) updated[p] = updated[p].filter((m) => m !== myName); });
     updated[pos] = [...(updated[pos] || []), myName];
-    setPosAssign(updated);
+    setPosAssign(posShiftKey, updated);
     toast(" " + myName + " → " + pos + "!");
   };
 
@@ -1398,7 +1399,7 @@ export function useInnerModal(booleans, closers) {
   closersRef.current = closers;
 
   useEffect(() => {
-    if (anyOpen) window.__anyModalOpen = true;
+    useAppStore.getState().setAnyModalOpen(anyOpen);
   }, [anyOpen]);
 
   useEffect(() => {

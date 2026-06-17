@@ -1,6 +1,10 @@
 // TabPatrol.jsx — SIPAMDAL
 // Sesi 5: Konversi tab-patrol.js → JSX
 // Props diterima langsung (belum Zustand): posAssign, patrols, setPatrols, toast, canEdit, isAdmin, currentUser
+//
+// ⚠️  DEPRECATED — komponen ini sudah digantikan oleh QRPatrolTab (QrEngine.jsx).
+// App.jsx merender tab 'patrol' via <QRPatrolTab>, bukan <PatrolTab>.
+// File ini dipertahankan sebagai cadangan; hapus setelah konfirmasi tidak diperlukan lagi.
 
 import { useState, useRef } from "react";
 import { REGU, PATROL_AREAS, kompressFoto, getReguHari } from "../utils/utils.js";

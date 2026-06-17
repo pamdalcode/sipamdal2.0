@@ -6,7 +6,7 @@ import { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
 import { IC, BtnSimpan, BtnBatal } from "../components/ui/UiComponents.jsx";
 import {
-  DEFAULT_PINS, getPinFromFS, savePinToFS, hashPin, auditAction,
+  DEFAULT_PINS, savePinToFS, verifyPinFS, auditAction,
   bioClearCred, bioHasCred, bioIsSupported, bioPlatformAvailable, bioRegister,
 } from "../stores/useAuthStore.js";
 
@@ -237,16 +237,13 @@ export function ProfileTab({
       if (s) freshPins = { ...DEFAULT_PINS, ...JSON.parse(s) };
     } catch {}
 
-    const storedOld = await getPinFromFS(name).catch(() => null);
-    let oldPinOk = false;
-    if (!storedOld) {
-      const correctOld = (freshPins[name] || "123456").trim();
-      oldPinOk = oldPin.trim() === correctOld;
-    } else if (storedOld.isHash) {
-      oldPinOk = await hashPin(oldPin.trim(), name) === storedOld.value;
-    } else {
-      oldPinOk = oldPin.trim() === storedOld.value;
-    }
+    // [FIX] Sebelumnya: hashPin(oldPin, name) — salah, karena hashPin(pin, saltB64)
+    // butuh salt ASLI dari Firestore, bukan nama user → verifikasi PIN lama selalu
+    // gagal. Pakai verifyPinFS (jalur sama dgn login) yang sudah menangani salt & format
+    // legacy dengan benar.
+    const correctOld = (freshPins[name] || "123456").trim();
+    const fsResult = await verifyPinFS(name, oldPin.trim()).catch(() => null);
+    const oldPinOk = fsResult !== null ? fsResult : (oldPin.trim() === correctOld);
 
     if (!oldPinOk) { toast("PIN lama salah! (default: 123456)", false); return; }
     if (newPin.trim().length !== 6 || !/^\d{6}$/.test(newPin.trim())) {

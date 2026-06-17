@@ -26,6 +26,7 @@ import { PkgTab }      from "./TabPaket.jsx";
 import { GuestTab }    from "./TabGuest.jsx";
 import { PesertaTab }  from "./TabPeserta.jsx";
 import { QRPatrolTab } from "../engine/QrEngine.jsx";
+import { useAppStore } from "../stores/useAppStore.js";
 
 import styles from "./TabDash.module.css";
 
@@ -658,14 +659,13 @@ function StatusGrid({ cards, activeCard, setActiveCard, todP, PATROL_TARGET }) {
    Komponen utama: DashTab
 ───────────────────────────────────────────── */
 export function DashTab({
-  now, shift, reguHari, posAssign, setPosAssign, setPosRollingLog,
+  now, reguHari, posAssign, setPosAssign, posShiftKey,
   incidents, setIncidents, packages, setPackages,
   guests, setGuests, patrols, setPatrols,
-  standJaga, mutations, posRollingLog, liburData, setLiburData,
+  standJaga, mutations, posRollingLog,
   instruksi, currentUser, setTab, canEdit, isAdmin,
-  keluarData, setKeluarData,
-  statusPimpinan = { hadir: true }, setStatusPimpinan,
-  toast, broadcast, onLogout, setSettingsOpen, setChangePinOpen,
+  keluarData,
+  toast, broadcast, onLogout,
   pushNotif, isUserLibur,
 }) {
   const netOnline = useOnlineStatus();
@@ -676,7 +676,7 @@ export function DashTab({
 
   /* Sinkronisasi modal dengan popstate Android */
   useEffect(() => {
-    window.__anyModalOpen = inboxOpen || laporanOpen || !!activeCard;
+    useAppStore.getState().setAnyModalOpen(inboxOpen || laporanOpen || !!activeCard);
     if (inboxOpen || laporanOpen) window.history.pushState({ modal: true }, "");
   }, [inboxOpen, laporanOpen, activeCard]);
 
@@ -752,10 +752,10 @@ export function DashTab({
   /* ── Card modal contents ── */
   const CARD_CONTENTS = {
     incident: () => <IncTab incidents={incidents} setIncidents={setIncidents} posAssign={posAssign} toast={toast} canEdit={canEdit} />,
-    pos:      () => <PosQRHero posAssign={posAssign} setPosAssign={setPosAssign} currentUser={currentUser} toast={toast} canEdit={canEdit} isUserLibur={isUserLibur} />,
+    pos:      () => <PosQRHero posAssign={posAssign} setPosAssign={setPosAssign} posShiftKey={posShiftKey} currentUser={currentUser} toast={toast} canEdit={canEdit} isUserLibur={isUserLibur} />,
     package:  () => <PkgTab packages={packages} setPackages={setPackages} toast={toast} canEdit={canEdit} />,
     guest:    () => <GuestTab guests={guests} setGuests={setGuests} toast={toast} canEdit={canEdit} />,
-    keluar:   () => <PesertaTab keluarData={keluarData} setKeluarData={setKeluarData} toast={toast} canEdit={canEdit} isAdmin={isAdmin} now={now} />,
+    keluar:   () => <PesertaTab canEdit={canEdit} isAdmin={isAdmin} />,
     patrol:   () => <QRPatrolTab patrols={patrols} setPatrols={setPatrols} posAssign={posAssign} toast={toast} currentUser={currentUser} canEdit={canEdit} reguHari={reguHari} isUserLibur={isUserLibur} />,
   };
   const CARD_TITLES = {

@@ -7,6 +7,7 @@ import {
   POS_LIST, POS_CAP, PATROL_AREAS, QR_PREFIX, decQR, ALL_AREAS, kompressFoto,
 } from "../utils/utils.js";
 import { BtnSimpan, BtnBatal } from "../components/ui/UiComponents.jsx";
+import { useAppStore } from "../stores/useAppStore.js";
 
 // ── Colour helpers ────────────────────────────────────────────────────────────
 function colRgb(col) {
@@ -589,9 +590,10 @@ export function QRPatrolTab({ patrols, setPatrols, posAssign, toast, currentUser
   const handleScan = (area) => { setScanOpen(false); openAreaChecklist(area, true); };
 
   useEffect(() => {
-    if (window.__pendingPatrolArea) {
-      const { area, viaQR } = window.__pendingPatrolArea;
-      window.__pendingPatrolArea = null;
+    const pending = useAppStore.getState().pendingPatrolArea;
+    if (pending) {
+      useAppStore.getState().setPendingPatrolArea(null);
+      const { area, viaQR } = pending;
       if (area && ALL_AREAS.includes(area)) openAreaChecklist(area, viaQR !== false);
     }
   }, []);
@@ -1024,7 +1026,7 @@ export function QRAdminTab({ patrols, posAssign }) {
 }
 
 // ── QRScannerModal — Navbar QR scanner untuk Patroli & Pos Jaga ──────────────
-export function QRScannerModal({ open, onClose, patrols, setPatrols, posAssign, setPosAssign, toast, currentUser, setTab, setTabKey }) {
+export function QRScannerModal({ open, onClose, patrols, setPatrols, posAssign, setPosAssign, posShiftKey, toast, currentUser, setTab, setTabKey }) {
   const [result,  setResult]  = useState(null);
   const [scanKey, setScanKey] = useState(0);
 
@@ -1069,16 +1071,16 @@ export function QRScannerModal({ open, onClose, patrols, setPatrols, posAssign, 
       const updated = { ...posAssign };
       POS_LIST.forEach(p => { if (updated[p]) updated[p] = updated[p].filter(m => m !== myName); });
       updated[posName] = [...(updated[posName] || []), myName];
-      if (setPosAssign) setPosAssign(updated);
+      if (setPosAssign) setPosAssign(posShiftKey, updated);
       setResult({ type: "pos", name: posName, ok: true, msg: ` ${myName} → ${posName}!` });
     }
-  }, [currentUser, patrols, posAssign, setPosAssign, toast, onClose]);
+  }, [currentUser, patrols, posAssign, setPosAssign, posShiftKey, toast, onClose]);
 
   const goToPatrol = () => {
     onClose();
     if (setTab) setTab("patrol");
     if (setTabKey) setTabKey(k => k + 1);
-    if (result?.name) window.__pendingPatrolArea = { area: result.name, pos: result.pos, viaQR: true };
+    if (result?.name) useAppStore.getState().setPendingPatrolArea({ area: result.name, pos: result.pos, viaQR: true });
   };
   const rescan = () => { setResult(null); setScanKey(k => k + 1); };
 

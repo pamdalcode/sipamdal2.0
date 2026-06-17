@@ -349,7 +349,7 @@ const fmtT = (d) => new Date(d).toLocaleTimeString("id-ID", { hour: "2-digit", m
 // Props: reguHari, posAssign, setPosAssign, posRollingLog, setPosRollingLog,
 //        toast, canEdit, isAdmin, currentUser, isUserLibur
 // ─────────────────────────────────────────────────────────────────────────────
-export function PosTab({ reguHari, posAssign, setPosAssign, posRollingLog, setPosRollingLog, toast, canEdit, isAdmin, currentUser, isUserLibur }) {
+export function PosTab({ reguHari, posAssign, setPosAssign, posShiftKey, posRollingLog, setPosRollingLog, toast, canEdit, isAdmin, currentUser, isUserLibur }) {
   const members = REGU[reguHari] || [];
   const [mode, setMode] = useState("assign");
   const [scanOpen, setScanOpen] = useState(false);
@@ -423,7 +423,7 @@ export function PosTab({ reguHari, posAssign, setPosAssign, posRollingLog, setPo
     const updated = { ...posAssign };
     POS_LIST.forEach(p => { if (updated[p]) updated[p] = updated[p].filter(m => m !== myName); });
     updated[pos] = [...(updated[pos] || []), myName];
-    setPosAssign(updated);
+    setPosAssign(posShiftKey, updated);
     setPosConfirmQR(null);
     setPosPhoto(null);
     toast(`✓ ${myName} → ${pos}!`);
@@ -448,7 +448,7 @@ export function PosTab({ reguHari, posAssign, setPosAssign, posRollingLog, setPo
     const updated = { ...posAssign };
     POS_LIST.forEach(p => { if (updated[p]) updated[p] = updated[p].filter(m => m !== nameToAssign); });
     updated[confirm.pos] = [...(updated[confirm.pos] || []), nameToAssign];
-    setPosAssign(updated);
+    setPosAssign(posShiftKey, updated);
     setConfirm(null);
     toast(`✓ ${nameToAssign} → ${confirm.pos}!`);
   };
@@ -477,7 +477,7 @@ export function PosTab({ reguHari, posAssign, setPosAssign, posRollingLog, setPo
     const updated = { ...posAssign };
     updated[fromPos] = [...(updated[fromPos] || []).filter(x => x !== rollingFrom), rollingTo];
     updated[toPos]   = [...(updated[toPos]   || []).filter(x => x !== rollingTo),   rollingFrom];
-    setPosAssign(updated);
+    setPosAssign(posShiftKey, updated);
     const log = { id: Date.now(), ts: Date.now(), member: `${rollingFrom} ⇄ ${rollingTo}`, fromPos, toPos };
     setPosRollingLog([...(posRollingLog || []), log]);
     toast(`↺ ${rollingFrom} (${fromPos}) ⇄ ${rollingTo} (${toPos})`);
@@ -492,7 +492,7 @@ export function PosTab({ reguHari, posAssign, setPosAssign, posRollingLog, setPo
     updated[pos]          = [...(updated[pos]          || []).filter(x => x !== targetName), myName];
     // myName keluar dari pos asal, targetName masuk
     updated[myCurrentPos] = [...(updated[myCurrentPos] || []).filter(x => x !== myName), targetName];
-    setPosAssign(updated);
+    setPosAssign(posShiftKey, updated);
     const log = { id: Date.now(), ts: Date.now(), member: `${myName} ⇄ ${targetName}`, fromPos: myCurrentPos, toPos: pos };
     setPosRollingLog([...(posRollingLog || []), log]);
     setPosRollingConfirm(null);
@@ -502,7 +502,7 @@ export function PosTab({ reguHari, posAssign, setPosAssign, posRollingLog, setPo
   const removeFromPos = (pos, m) => {
     if (!canEdit) return;
     const updated = { ...posAssign, [pos]: (posAssign[pos] || []).filter(x => x !== m) };
-    setPosAssign(updated);
+    setPosAssign(posShiftKey, updated);
     toast(`${m} dilepas dari ${pos}`);
   };
 
@@ -870,7 +870,7 @@ export function PosTab({ reguHari, posAssign, setPosAssign, posRollingLog, setPo
             const upd = { ...posAssign };
             upd[pos]          = [...(upd[pos]          || []).filter(x => x !== targetName), myName];
             upd[myCurrentPos] = [...(upd[myCurrentPos] || []).filter(x => x !== myName), targetName];
-            setPosAssign(upd);
+            setPosAssign(posShiftKey, upd);
             const log = { id: Date.now(), ts: Date.now(), member: `${myName} ⇄ ${targetName}`, fromPos: myCurrentPos, toPos: pos };
             setPosRollingLog([...(posRollingLog || []), log]);
             setManualVerify(null);
@@ -883,7 +883,7 @@ export function PosTab({ reguHari, posAssign, setPosAssign, posRollingLog, setPo
           const cap = POS_CAP[pos] || 1;
           if ((upd[pos] || []).length >= cap) { toast(`${pos} sudah penuh!`, false); setManualVerify(null); return; }
           upd[pos] = [...(upd[pos] || []), myName];
-          setPosAssign(upd);
+          setPosAssign(posShiftKey, upd);
           setManualVerify(null);
           setManualLog(getManualLog());
           toast(`📋 ${myName} → ${pos} [MANUAL — tercatat]`);

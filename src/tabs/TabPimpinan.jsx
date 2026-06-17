@@ -127,9 +127,9 @@ export default function TabPimpinan({ onLogout, setTab, pushNotif = { isEnabled:
   const [liburOpen,     setLiburOpen]     = useState(false);
   const [piketSelected, setPiketSelected] = useState(null);
 
-  // Sync anyModalOpen ke window (untuk back button handler)
+  // Sync anyModalOpen ke store (untuk back button handler)
   useEffect(() => {
-    window.__anyModalOpen = instruksiOpen || lepasOpen || liburOpen;
+    useAppStore.getState().setAnyModalOpen(instruksiOpen || lepasOpen || liburOpen);
     if (instruksiOpen || lepasOpen || liburOpen)
       window.history.pushState({ modal: true }, "");
   }, [instruksiOpen, lepasOpen, liburOpen]);

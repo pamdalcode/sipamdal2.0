@@ -16,6 +16,7 @@ import {
 } from '../utils/utils.js';
 
 import { auditAction, runPinMigration } from '../stores/useAuthStore.js';
+import { useDataStore } from '../stores/useDataStore.js';
 import { IC, PH, Btn, BtnSimpan, BtnBatal, useInnerModal } from '../components/ui/UiComponents.jsx';
 import { useConfirm } from '../AppShell.jsx';
 import {
@@ -595,6 +596,8 @@ export function BroadcastTab({ broadcast, setBroadcast, currentUser, toast, waGr
 
 // ── AdminMemberTab ────────────────────────────────────────────────────────────
 export function AdminMemberTab({ patrols, standJaga, incidents, mutations, toast, instruksi, setInstruksi, broadcast, setBroadcast, currentUser }) {
+  const waGrup    = useDataStore(s => s.waGrup);
+  const setWaGrup = useDataStore(s => s.setWaGrup);
   const [confirm, confirmDialog] = useConfirm();
   const [selectedMember, setSelectedMember] = useState(null);
   const [activeTab, setActiveTab] = useState('progres');
@@ -959,7 +962,7 @@ export function AdminMemberTab({ patrols, standJaga, incidents, mutations, toast
       {activeTab === 'instruksi' && <InstruksiFormTab instruksi={instruksi} setInstruksi={setInstruksi} currentUser={currentUser} toast={toast} />}
 
       {/* ── Broadcast ── */}
-      {activeTab === 'broadcast' && <BroadcastTab broadcast={broadcast} setBroadcast={setBroadcast} currentUser={currentUser} toast={toast} />}
+      {activeTab === 'broadcast' && <BroadcastTab broadcast={broadcast} setBroadcast={setBroadcast} currentUser={currentUser} toast={toast} waGrup={waGrup} setWaGrup={setWaGrup} />}
 
       {/* ── Jadwal ── */}
       {activeTab === 'jadwal' && renderJadwal()}

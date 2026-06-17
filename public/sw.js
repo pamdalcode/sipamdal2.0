@@ -29,7 +29,6 @@ const STATIC_ASSETS = [
   "/",
   "/index.html",
   "/manifest.json",
-  "/logo-bbpka.jpg",
   "/icon-96.png",
   "/icon-192.png",
   "/icon-512.png",
@@ -59,7 +58,14 @@ self.addEventListener("install", e => {
   console.log("[SW v9] Install");
   e.waitUntil(
     caches.open(CACHE_STATIC)
-      .then(cache => cache.addAll(STATIC_ASSETS).catch(() => {}))
+      // [FIX] cache.addAll() bersifat all-or-nothing — kalau SATU URL gagal (404/dll),
+      // SEMUA aset gagal di-cache tanpa pesan error yang jelas. Pakai cache.add() per
+      // aset + catch individual supaya aset lain tetap ter-cache walau salah satu hilang.
+      .then(cache => Promise.all(
+        STATIC_ASSETS.map(url =>
+          cache.add(url).catch(err => console.warn("[SW v9] Gagal precache:", url, err.message))
+        )
+      ))
       .then(() => self.skipWaiting())
   );
 });

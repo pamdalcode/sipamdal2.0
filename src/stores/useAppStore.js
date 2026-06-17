@@ -88,20 +88,22 @@ const useAppStore = create((set, get) => ({
   changePinOpen:  false,
   fabOpen:        false,
   qrScanOpen:     false,
-  anyModalOpen:   false,   // menggantikan window.__anyModalOpen
+  anyModalOpen:       false,   // menggantikan window.__anyModalOpen
+  pendingPatrolArea:  null,    // menggantikan window.__pendingPatrolArea
 
-  setMoreOpen:      (v) => set({ moreOpen: v }),
-  setSettingsOpen:  (v) => set({ settingsOpen: v }),
-  setChangePinOpen: (v) => set({ changePinOpen: v }),
-  setFabOpen:       (v) => set({ fabOpen: v }),
-  setQrScanOpen:    (v) => set({ qrScanOpen: v }),
-  setAnyModalOpen:  (v) => set({ anyModalOpen: v }),
+  setMoreOpen:           (v) => set({ moreOpen: v }),
+  setSettingsOpen:       (v) => set({ settingsOpen: v }),
+  setChangePinOpen:      (v) => set({ changePinOpen: v }),
+  setFabOpen:            (v) => set({ fabOpen: v }),
+  setQrScanOpen:         (v) => set({ qrScanOpen: v }),
+  setAnyModalOpen:       (v) => set({ anyModalOpen: v }),
+  setPendingPatrolArea:  (v) => set({ pendingPatrolArea: v }),
 
   // Tutup semua overlay sekaligus (dipanggil oleh back button handler)
   closeAllOverlays: () => set({
     moreOpen: false, settingsOpen: false,
     fabOpen: false,  qrScanOpen: false,
-    anyModalOpen: false,
+    anyModalOpen: false, pendingPatrolArea: null,
   }),
 
   // ── Firebase online status ────────────────────────────────────────────────

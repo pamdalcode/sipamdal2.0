@@ -4,30 +4,32 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+  <!-- Cache strategy: diatur di server (Firebase Hosting / Nginx) -->
+  <!-- Vite otomatis menambahkan content-hash ke nama file JS/CSS saat build -->
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
   <meta http-equiv="Pragma" content="no-cache" />
   <meta http-equiv="Expires" content="0" />
 
-  <!-- Content Security Policy — diperlonggar untuk Firebase Auth & Google APIs -->
+  <!-- Content Security Policy -->
+  <!-- 'unsafe-inline' masih diperlukan untuk inline script light-mode lock -->
+  <!-- Ke depan: pindahkan ke nonce-based CSP -->
   <meta http-equiv="Content-Security-Policy" content="
     default-src 'self';
-    script-src  'self' 'unsafe-inline' 'unsafe-eval' https://apis.google.com https://*.googleapis.com;
+    script-src  'self' 'unsafe-inline';
     style-src   'self' 'unsafe-inline' https://fonts.googleapis.com;
     font-src    https://fonts.gstatic.com;
     connect-src 'self'
                 https://*.googleapis.com
-                https://apis.google.com
                 https://*.firebase.io
                 https://*.firebaseio.com
                 wss://*.firebaseio.com
                 https://firestore.googleapis.com
                 https://identitytoolkit.googleapis.com
-                https://fcmregistrations.googleapis.com
-                https://securetoken.googleapis.com;
+                https://fcmregistrations.googleapis.com;
     img-src     'self' data: blob:;
     media-src   'self' blob:;
     worker-src  'self' blob:;
-    frame-src   'self' https://accounts.google.com https://*.firebaseapp.com;
+    frame-src   'none';
     object-src  'none';
     base-uri    'self';
   " />
@@ -87,10 +89,13 @@
 
   <title>SIPAMDAL v1.0.0 – BBPKA II Jatinangor</title>
 
+  <!-- Global CSS variables (dari styles.css di public/) -->
+  <!-- Catatan: Vite akan handle CSS Modules per-komponen secara otomatis -->
   <link rel="stylesheet" href="/styles.css" />
 </head>
 
 <body>
+  <!-- Splash screen — dihapus oleh main.jsx setelah React mount -->
   <style>
     #sipamdal-splash {
       position: fixed; inset: 0; z-index: 9999;
@@ -122,8 +127,10 @@
     <div class="sub">Menyiapkan komponen &amp; menghubungkan server</div>
   </div>
 
+  <!-- React mount point -->
   <div id="root"></div>
 
+  <!-- Entry point Vite — semua import dihandle oleh bundler, tidak ada CDN script -->
   <script type="module" src="/src/main.jsx"></script>
 </body>
 </html>

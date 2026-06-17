@@ -6,7 +6,7 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import {
   JADWAL_START, POS_LIST, ALL_AREAS, COLOR,
-  toLocalKey, cRgba, pinRgb,
+  toLocalKey, cRgba, pinRgb, usePushNotif,
 } from '../utils/utils.js';
 
 import { IC } from '../components/ui/UiComponents.jsx';
@@ -25,7 +25,6 @@ import {
   bioRegister,
 } from '../stores/useAuthStore.js';
 
-import { useAppStore } from '../stores/useAppStore.js';
 import { db, collection, addDoc, serverTimestamp } from '../firebase/firebase.js';
 import { notifySWPimpinan } from '../main.jsx';
 
@@ -54,8 +53,11 @@ export function WelcomeScreen({
   const [bioAvail, setBioAvail] = useState(false);
   const [bioLoading, setBioLoading] = useState(false);
 
-  // pushNotif diambil dari Zustand (pengganti window.__pushNotif)
-  const pushNotif = useAppStore(s => s.pushNotif);
+  // [FIX] Sebelumnya diambil dari useAppStore(s => s.pushNotif) — field itu TIDAK ADA
+  // di useAppStore sama sekali, jadi pushNotif selalu undefined dan notif darurat
+  // lokal di tombol panic gagal dikirim secara diam-diam. pushNotif yang benar
+  // berasal dari hook usePushNotif() di utils.js (dipakai juga di App.jsx).
+  const pushNotif = usePushNotif();
 
   useEffect(() => {
     let alive = true;
@@ -298,8 +300,8 @@ export function WelcomeScreen({
         status: 'aktif',
       });
       // Kirim notif lokal sebagai fallback
-      if (pushNotif) {
-        pushNotif(
+      if (pushNotif?.isEnabled) {
+        pushNotif.sendNotif(
           ' DARURAT — ' + user.name,
           'Tombol darurat ditekan! Segera periksa lokasi.',
           { tag: 'panic-' + Date.now(), priority: 'Penting' }

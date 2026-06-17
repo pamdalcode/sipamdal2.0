@@ -6,7 +6,7 @@
 //   - Tab, toast, confirm, overlay dari useAppStore
 //   - window.__FB, window.__FB_ONLINE, window.__anyModalOpen → dihapus/diganti
 
-import { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { createPortal } from 'react-dom';
 
 import { useAuthStore }  from './stores/useAuthStore.js';
@@ -23,15 +23,13 @@ import {
   toLocalKey,
   getShift,
   cRgba,
-  useOnlineStatus,
   usePushNotif,
 } from './utils/utils.js';
 
 import {
   DEFAULT_PINS,
-  hashPin,
   savePinToFS,
-  getPinFromFS,
+  verifyPinFS,
   auditAction,
 } from './stores/useAuthStore.js';
 
@@ -135,7 +133,6 @@ export default function App() {
   const tab         = useAppStore(s => s.tab);
   const setTab      = useAppStore(s => s.setTab);
   const fbOnline    = useAppStore(s => s.fbOnline);
-  const setFbOnline = useAppStore(s => s.setFbOnline);
   const notif       = useAppStore(s => s.notif);
   const toast       = useAppStore(s => s.toast);
   const textColor   = useAppStore(s => s.textColor);
@@ -174,6 +171,7 @@ export default function App() {
   const setStatusPimpinan  = useDataStore(s => s.setStatusPimpinan);
   const posAssign          = useDataStore(s => s.posAssign);
   const setPosAssign       = useDataStore(s => s.setPosAssign);
+  const loadPosAssign      = useDataStore(s => s.loadPosAssign);
 
   // ── Local UI state ──
   const [visitedTabs, setVisitedTabs]   = useState({ dashboard: true });
@@ -201,23 +199,10 @@ export default function App() {
   useEffect(() => { const id = setInterval(() => setNow(new Date()), 60000); return () => clearInterval(id); }, []);
   useEffect(() => { syncAnggotaFromFirestore(); }, []);
 
-  // ── fbOnline via store ──
-  const netOnline = useOnlineStatus();
-  useEffect(() => {
-    const onOnline  = () => setFbOnline(true);
-    const onOffline = () => setFbOnline(false);
-    window.addEventListener('fb_online',  onOnline);
-    window.addEventListener('fb_offline', onOffline);
-    const poll = setInterval(() => {
-      // fbOnline diupdate oleh firebase.js via event — poll sebagai fallback
-    }, 5000);
-    return () => {
-      window.removeEventListener('fb_online',  onOnline);
-      window.removeEventListener('fb_offline', onOffline);
-      clearInterval(poll);
-    };
-  }, [setFbOnline]);
-
+  // [FIX] Effect lama di sini listen ke event 'fb_online'/'fb_offline' yang TIDAK
+  // PERNAH di-dispatch di mana pun (fbOnline sudah diupdate langsung oleh
+  // startOnlineProbe() di main.jsx -> useAppStore.setFbOnline()) — jadi efek itu mati
+  // total (plus ada setInterval kosong yang tidak melakukan apa-apa). Dihapus.
   // ── textColor apply ke :root ──
   const TEXT_COLORS = [
     { id: 'default', label: 'Bawaan',     color: null },
@@ -370,6 +355,11 @@ export default function App() {
   const todayKey   = toLocalKey(new Date());
   const posShiftKey = getShiftKey(now);
 
+  // [FIX setPosAssign] posAssign disimpan per-shift di Firestore (dok pad_pos_<shiftKey>).
+  // Muat ulang setiap kali shift berganti — sebelumnya tidak pernah dipanggil sama sekali,
+  // jadi posAssign tidak pernah sinkron dari Firestore saat app dibuka / shift berganti.
+  useEffect(() => { loadPosAssign(posShiftKey); }, [posShiftKey]);
+
   // Auto-fill Pos Utama saat posAssign kosong
   useEffect(() => {
     if (!posAssign || Object.keys(posAssign).length > 0) return;
@@ -382,7 +372,9 @@ export default function App() {
       const todayJKey = `${new Date().getFullYear()}-${new Date().getMonth() + 1}-${new Date().getDate()}`;
       const liburIds = liburMap[todayJKey] || [];
       const anggotaPiket = ANGGOTA_DATA.items.filter(a => a.regu === reguHari && !liburIds.includes(a.id)).map(a => a.nama);
-      if (anggotaPiket.length > 0) setPosAssign({ 'Pos Utama': anggotaPiket });
+      // [FIX setPosAssign] dulu dipanggil dengan 1 argumen saja — shiftKey wajib disertakan
+      // karena signature store-nya setPosAssign(shiftKey, updater).
+      if (anggotaPiket.length > 0) setPosAssign(posShiftKey, { 'Pos Utama': anggotaPiket });
     } catch (_) {}
   }, [reguHari, posShiftKey]); // eslint-disable-line
 
@@ -441,16 +433,13 @@ export default function App() {
     const name = currentUser.name;
     let freshPins = Object.assign({}, DEFAULT_PINS);
     try { const s = localStorage.getItem('pad_pins'); if (s) freshPins = Object.assign({ ...DEFAULT_PINS }, JSON.parse(s)); } catch (_) {}
-    const storedOld = await getPinFromFS(name).catch(() => null);
-    let oldPinOk = false;
     const defPin = currentUser.isPimpinan ? '111111' : '123456';
-    if (!storedOld) {
-      oldPinOk = cpOldPin.trim() === (freshPins[name] || defPin).trim();
-    } else if (storedOld.isHash) {
-      oldPinOk = await hashPin(cpOldPin.trim(), name) === storedOld.value;
-    } else {
-      oldPinOk = cpOldPin.trim() === storedOld.value;
-    }
+    // [FIX] Sebelumnya: hashPin(cpOldPin, name) — tapi hashPin(pin, saltB64) butuh salt
+    // ASLI dari Firestore (storedOld.salt), bukan nama user. Akibatnya verifikasi PIN lama
+    // selalu gagal untuk siapa pun yang PIN-nya sudah pernah di-hash. Pakai verifyPinFS
+    // (jalur yang sama dipakai saat login) yang sudah menangani salt & legacy format dgn benar.
+    const fsResult = await verifyPinFS(name, cpOldPin.trim()).catch(() => null);
+    const oldPinOk = fsResult !== null ? fsResult : (cpOldPin.trim() === (freshPins[name] || defPin).trim());
     if (!oldPinOk) { toast(`PIN lama salah! (default: ${defPin})`, false); return; }
     if (cpNewPin.trim().length !== 6 || !/^\d{6}$/.test(cpNewPin.trim())) { toast('PIN baru harus 6 angka!', false); return; }
     if (cpNewPin.trim() !== cpConfPin.trim()) { toast('Konfirmasi PIN tidak cocok!', false); return; }
@@ -694,13 +683,13 @@ export default function App() {
   const contentMap = {
     package:    <PkgTab packages={packages} setPackages={setPackages} toast={toast} canEdit={canEdit} />,
     mutation:   <MutTab mutations={mutations} setMutations={setMutations} reguHari={reguHari} toast={toast} canEdit={canEdit} patrols={patrols} incidents={incidents} packages={packages} guests={guests} currentUser={currentUser} standJaga={standJaga} rollings={rollings} inventarisDaftar={inventarisDaftar} inventarisCek={inventarisCek} />,
-    inventaris: <InventarisTab inventarisDaftar={inventarisDaftar} setInventarisDaftar={setInventarisDaftar} inventarisCek={inventarisCek} setInventarisCek={setInventarisCek} toast={toast} isAdmin={isAdmin} canEdit={canEdit} now={now} posAssign={posAssign} currentUser={currentUser} />,
+    inventaris: <InventarisTab canEdit={canEdit} isAdmin={isAdmin} />,
     instruksi:  <InstruksiFormTab instruksi={instruksi} setInstruksi={setInstruksi} currentUser={currentUser} toast={toast} />,
     broadcast:  <BroadcastTab broadcast={broadcast} setBroadcast={setBroadcast} currentUser={currentUser} toast={toast} waGrup={waGrup} setWaGrup={setWaGrup} />,
     jadwal:     <JadwalTab now={now} liburData={liburData} setLiburData={setLiburData} reguHari={reguHari} isAdmin={isAdmin} canEdit={canEdit} toast={toast} setTab={setTab} patrols={patrols} standJaga={standJaga} incidents={incidents} />,
-    search:     <SearchTab packages={packages} guests={guests} mutations={mutations} incidents={incidents} patrols={patrols} />,
+    search:     <SearchTab />,
     guest:      <GuestTab guests={guests} setGuests={setGuests} toast={toast} canEdit={canEdit} />,
-    keluar:     <PesertaTab keluarData={keluarData} setKeluarData={setKeluarData} toast={toast} canEdit={canEdit} isAdmin={isAdmin} now={now} />,
+    keluar:     <PesertaTab canEdit={canEdit} isAdmin={isAdmin} />,
     profile:    <ProfileTab currentUser={currentUser} patrols={patrols} standJaga={standJaga} incidents={incidents} mutations={mutations} onLogout={handleLogout} toast={toast} userPins={userPins} setUserPins={setUserPins} changePinOpen={changePinOpen} setChangePinOpen={setChangePinOpen} />,
     members:    <AdminMemberTab patrols={patrols} standJaga={standJaga} incidents={incidents} mutations={mutations} toast={toast} instruksi={instruksi} setInstruksi={setInstruksi} broadcast={broadcast} setBroadcast={setBroadcast} currentUser={currentUser} />,
   };
@@ -804,11 +793,11 @@ export default function App() {
       {/* Main content */}
       <main style={{ flex: 1, padding: 0, overflowY: 'auto', paddingBottom: 'calc(120px + env(safe-area-inset-bottom))', background: 'transparent' }}>
         <div key={tabKey} className="tab-view" style={{ paddingTop: 0 }}>
-          {visitedTabs['pimpinan']  && <div style={{ display: tab === 'pimpinan'  ? 'contents' : 'none' }}>{tab === 'pimpinan'  && <PimpinanTab now={now} patrols={patrols} standJaga={standJaga} incidents={incidents} posAssign={posAssign} instruksi={instruksi} setInstruksi={setInstruksi} mutations={mutations} currentUser={currentUser} packages={packages} guests={guests} reguHari={reguHari} liburData={liburData} setLiburData={setLiburData} setTab={setTab} canEdit={canEdit} isAdmin={isAdmin} isPimpinan={isPimpinan} statusPimpinan={statusPimpinan} setStatusPimpinan={setStatusPimpinan} toast={toast} broadcast={broadcast} setBroadcast={setBroadcast} onLogout={handleLogout} pushNotif={pushNotif} waGrup={waGrup} />}</div>}
-          {visitedTabs['evaluasi']  && <div style={{ display: tab === 'evaluasi'  ? 'contents' : 'none' }}>{tab === 'evaluasi'  && <EvaluasiTab now={now} patrols={patrols} incidents={incidents} mutations={mutations} packages={packages} guests={guests} />}</div>}
-          {visitedTabs['dashboard'] && <div style={{ display: tab === 'dashboard' && !isAdmin && !isPimpinan ? 'contents' : 'none' }}>{tab === 'dashboard' && !isAdmin && !isPimpinan && <DashTab now={now} shift={shift} reguHari={reguHari} posAssign={posAssign} setPosAssign={setPosAssign} setPosRollingLog={setPosRollingLog} incidents={incidents} setIncidents={setIncidents} packages={packages} setPackages={setPackages} guests={guests} setGuests={setGuests} patrols={patrols} setPatrols={setPatrols} standJaga={standJaga} mutations={mutations} posRollingLog={posRollingLog} liburData={liburData} setLiburData={setLiburData} instruksi={instruksi} currentUser={currentUser} setTab={setTab} canEdit={canEdit} isAdmin={isAdmin} keluarData={keluarData} setKeluarData={setKeluarData} statusPimpinan={statusPimpinan} setStatusPimpinan={setStatusPimpinan} toast={toast} broadcast={broadcast} onLogout={handleLogout} setSettingsOpen={setSettingsOpen} setChangePinOpen={setChangePinOpen} pushNotif={pushNotif} isUserLibur={isUserLibur} />}</div>}
-          {visitedTabs['dashboard'] && <div style={{ display: tab === 'dashboard' && (isAdmin || isPimpinan) ? 'contents' : 'none' }}>{tab === 'dashboard' && (isAdmin || isPimpinan) && <PimpinanTab now={now} patrols={patrols} standJaga={standJaga} incidents={incidents} posAssign={posAssign} instruksi={instruksi} setInstruksi={setInstruksi} mutations={mutations} currentUser={currentUser} packages={packages} guests={guests} reguHari={reguHari} liburData={liburData} setLiburData={setLiburData} setTab={setTab} canEdit={canEdit} isAdmin={isAdmin} isPimpinan={isPimpinan} statusPimpinan={statusPimpinan} setStatusPimpinan={setStatusPimpinan} toast={toast} broadcast={broadcast} setBroadcast={setBroadcast} onLogout={handleLogout} pushNotif={pushNotif} waGrup={waGrup} />}</div>}
-          {visitedTabs['pos']       && <div style={{ display: tab === 'pos'       ? 'contents' : 'none' }}>{tab === 'pos'       && <PosTab reguHari={reguHari} posAssign={posAssign} setPosAssign={setPosAssign} posRollingLog={posRollingLog} setPosRollingLog={setPosRollingLog} toast={toast} canEdit={canEdit} isAdmin={isAdmin} currentUser={currentUser} isUserLibur={isUserLibur} />}</div>}
+          {visitedTabs['pimpinan']  && <div style={{ display: tab === 'pimpinan'  ? 'contents' : 'none' }}>{tab === 'pimpinan'  && <PimpinanTab setTab={setTab} onLogout={handleLogout} pushNotif={pushNotif} />}</div>}
+          {visitedTabs['evaluasi']  && <div style={{ display: tab === 'evaluasi'  ? 'contents' : 'none' }}>{tab === 'evaluasi'  && <EvaluasiTab />}</div>}
+          {visitedTabs['dashboard'] && <div style={{ display: tab === 'dashboard' && !isAdmin && !isPimpinan ? 'contents' : 'none' }}>{tab === 'dashboard' && !isAdmin && !isPimpinan && <DashTab now={now} reguHari={reguHari} posAssign={posAssign} setPosAssign={setPosAssign} posShiftKey={posShiftKey} incidents={incidents} setIncidents={setIncidents} packages={packages} setPackages={setPackages} guests={guests} setGuests={setGuests} patrols={patrols} setPatrols={setPatrols} standJaga={standJaga} mutations={mutations} posRollingLog={posRollingLog} instruksi={instruksi} currentUser={currentUser} setTab={setTab} canEdit={canEdit} isAdmin={isAdmin} keluarData={keluarData} toast={toast} broadcast={broadcast} onLogout={handleLogout} pushNotif={pushNotif} isUserLibur={isUserLibur} />}</div>}
+          {visitedTabs['dashboard'] && <div style={{ display: tab === 'dashboard' && (isAdmin || isPimpinan) ? 'contents' : 'none' }}>{tab === 'dashboard' && (isAdmin || isPimpinan) && <PimpinanTab setTab={setTab} onLogout={handleLogout} pushNotif={pushNotif} />}</div>}
+          {visitedTabs['pos']       && <div style={{ display: tab === 'pos'       ? 'contents' : 'none' }}>{tab === 'pos'       && <PosTab reguHari={reguHari} posAssign={posAssign} setPosAssign={setPosAssign} posShiftKey={posShiftKey} posRollingLog={posRollingLog} setPosRollingLog={setPosRollingLog} toast={toast} canEdit={canEdit} isAdmin={isAdmin} currentUser={currentUser} isUserLibur={isUserLibur} />}</div>}
           {visitedTabs['patrol']    && <div style={{ display: tab === 'patrol'    ? 'contents' : 'none' }}>{tab === 'patrol'    && <QRPatrolTab patrols={patrols} setPatrols={setPatrols} posAssign={posAssign} toast={toast} currentUser={currentUser} canEdit={canEdit} reguHari={reguHari} isUserLibur={isUserLibur} />}</div>}
           {visitedTabs['qrpatroli'] && <div style={{ display: tab === 'qrpatroli' ? 'contents' : 'none' }}>{tab === 'qrpatroli' && <QRAdminTab patrols={patrols} posAssign={posAssign} />}</div>}
           {visitedTabs['incident']  && <div style={{ display: tab === 'incident'  ? 'contents' : 'none' }}>{tab === 'incident'  && <IncTab incidents={incidents} setIncidents={setIncidents} posAssign={posAssign} toast={toast} canEdit={canEdit} />}</div>}
@@ -824,6 +813,7 @@ export default function App() {
           setPatrols={setPatrols}
           posAssign={posAssign}
           setPosAssign={setPosAssign}
+          posShiftKey={posShiftKey}
           toast={toast}
           currentUser={currentUser}
           setTab={(t) => { setTab(t); setQrScanOpen(false); }}

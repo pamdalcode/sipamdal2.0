@@ -334,52 +334,48 @@ export function auditAction(actor, regu, action, detail) {
   writeAuditLog({ action, actor, regu: regu || 0, detail });
 }
 
+// ── userPins helper — cache PIN lokal (fallback saat Firestore tak terjangkau) ─
+function _loadUserPins() {
+  try {
+    const s = localStorage.getItem('pad_pins');
+    return s ? { ...DEFAULT_PINS, ...JSON.parse(s) } : { ...DEFAULT_PINS };
+  } catch { return { ...DEFAULT_PINS }; }
+}
+
 // ── Zustand Store ─────────────────────────────────────────────────────────────
 // State login terpusat — menggantikan localStorage + prop drilling
+// [FIX] currentUser sekarang object { name, regu, isAdmin, isPimpinan } — bukan
+// string — supaya konsisten dengan App.jsx, AppShell.jsx, TabPimpinan.jsx,
+// TabInventaris.jsx yang semuanya mengakses currentUser.name / currentUser.regu.
 const useAuthStore = create((set, get) => ({
   // State
-  currentUser:  null,   // string nama user yang login
-  currentRegu:  0,      // number regu (1/2/3/0 untuk non-regu)
-  isAdmin:      false,
-  isPimpinan:   false,
-  isLoggedIn:   false,
+  currentUser: null,        // { name, regu, isAdmin, isPimpinan } | null
+  userPins:    _loadUserPins(), // cache PIN lokal per nama — fallback offline
+
+  // Set user login aktif + persist ke localStorage (dipanggil dari App.jsx
+  // setelah verifikasi PIN berhasil di TabLogin/TabWelcome)
+  setCurrentUser: (user) => {
+    set({ currentUser: user || null });
+    try {
+      if (user) localStorage.setItem('pad_session', JSON.stringify(user));
+      else localStorage.removeItem('pad_session');
+    } catch {}
+  },
+
+  // Update cache PIN lokal + persist (dipanggil setelah ganti PIN berhasil)
+  setUserPins: (pins) => {
+    set({ userPins: pins });
+    try { localStorage.setItem('pad_pins', JSON.stringify(pins)); } catch {}
+  },
 
   // Restore session dari localStorage (dipanggil dari main.jsx saat app load)
   restoreSession: () => {
     try {
       const raw = localStorage.getItem('pad_session');
       if (!raw) return;
-      const s = JSON.parse(raw);
-      if (s?.name) {
-        set({
-          currentUser: s.name,
-          currentRegu: s.regu || 0,
-          isAdmin:     !!s.isAdmin,
-          isPimpinan:  !!s.isPimpinan,
-          isLoggedIn:  true,
-        });
-      }
+      const user = JSON.parse(raw);
+      if (user?.name) set({ currentUser: user });
     } catch {}
-  },
-
-  // Login — dipanggil dari TabLogin setelah verifyPinFS berhasil
-  login: (name, regu, isAdmin, isPimpinan) => {
-    set({ currentUser: name, currentRegu: regu || 0, isAdmin: !!isAdmin, isPimpinan: !!isPimpinan, isLoggedIn: true });
-    try {
-      localStorage.setItem('pad_session', JSON.stringify({ name, regu, isAdmin, isPimpinan }));
-    } catch {}
-    recordLogin(name, regu, isAdmin, isPimpinan);
-  },
-
-  // Logout
-  logout: () => {
-    const { currentUser, currentRegu, isAdmin, isPimpinan } = get();
-    writeAuditLog({
-      action: 'LOGOUT', actor: currentUser || '-', regu: currentRegu,
-      isAdmin: !!isAdmin, isPimpinan: !!isPimpinan, detail: 'Logout',
-    });
-    set({ currentUser: null, currentRegu: 0, isAdmin: false, isPimpinan: false, isLoggedIn: false });
-    try { localStorage.removeItem('pad_session'); } catch {}
   },
 }));
 

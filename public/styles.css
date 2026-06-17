@@ -1,90 +1,129 @@
 /* ============================================================
    SIPAMDAL — Global CSS Variables
-   File ini harus ada di /public/styles.css
+   File ini direkonstruksi karena hilang dari proses migrasi Vite.
+   Palet warna: biru-langit + teal (sesuai theme-color #3BA894
+   di index.html dan accent glow #0EA5E9 di splash screen).
+   Silakan sesuaikan nilai-nilai di bawah ke desain aslinya.
    ============================================================ */
 
-*, *::before, *::after {
+:root {
+  /* ---- Accent (warna utama brand) ---- */
+  --accent: #0EA5E9;
+  --accent-2: #3BA894;
+  --accent-light: #38bdf8;
+  --accent-glow: #0EA5E9;
+  --accent-tint: rgba(14, 165, 233, 0.10);
+  --accent-text: #0369A1;
+  --orb-rgb: 14, 165, 233;
+
+  /* ---- Backgrounds ---- */
+  --bg-base: #F4FAFD;
+  --bg-surface: #FFFFFF;
+  --bg-raised: #F8FBFF;
+  --bg-card: #FFFFFF;
+  --bg-overlay: rgba(255, 255, 255, 0.92);
+  --scrim: rgba(15, 23, 42, 0.55);
+
+  /* ---- Text ---- */
+  --tx: #0F172A;
+  --tx-primary: #0F172A;
+  --tx-secondary: #374151;
+  --tx-muted: #94A3B8;
+  --tx-ghost: #CBD5E1;
+
+  /* ---- Borders ---- */
+  --border: #E2E8F0;
+  --border2: #CBD5E1;
+  --br-subtle: #EEF2F7;
+  --br-default: #E2E8F0;
+  --br-strong: #94A3B8;
+
+  /* ---- Radius ---- */
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-full: 999px;
+  --br: 12px;
+
+  /* ---- Shadow ---- */
+  --shadow: 0 2px 8px rgba(15, 23, 42, 0.08);
+  --shadow-lg: 0 12px 32px rgba(15, 23, 42, 0.16);
+
+  /* ---- Status: Green ---- */
+  --green: #16A34A;
+  --green-light: #4ADE80;
+  --green-t: rgba(22, 163, 74, 0.12);
+  --green-rgb: 22, 163, 74;
+
+  /* ---- Status: Red ---- */
+  --red: #DC2626;
+  --red-bright: #EF4444;
+  --red-rgb: 220, 38, 38;
+
+  /* ---- Status: Amber ---- */
+  --amber: #F59E0B;
+  --amber-bright: #FBBF24;
+  --amber-dark: #B45309;
+  --amber-text: #92400E;
+  --amber-rgb: 245, 158, 11;
+
+  /* ---- Status: Violet ---- */
+  --violet: #7C3AED;
+  --violet-rgb: 124, 58, 237;
+
+  /* ---- Status: Blue ---- */
+  --blue-dark: #1D4ED8;
+
+  /* ---- Teal (utility) ---- */
+  --teal-rgb: 13, 148, 136;
+
+  /* ---- Slate (neutral) ---- */
+  --col-slate: #64748B;
+
+  /* ---- WhatsApp brand ---- */
+  --whatsapp: #25D366;
+  --whatsapp-dark: #128C7E;
+
+  /* ---- Regu / shift colors (default sebelum override JS) ---- */
+  --regu-1-col: #0D9488;
+  --regu-2-col: #2563EB;
+  --regu-col: var(--accent);
+
+  /* ---- Misc ---- */
+  --cal-sunday: #DC2626;
+  --pill-active: #FFFFFF;
+  --disabled-bg: #F1F5F9;
+  --ws-card-h: 290px;
+}
+
+/* ---- Base reset ---- */
+* {
   box-sizing: border-box;
+}
+
+html, body {
   margin: 0;
   padding: 0;
 }
 
-html, body {
-  height: 100%;
+body {
+  background: var(--bg-base);
+  color: var(--tx);
   font-family: 'DM Sans', system-ui, -apple-system, sans-serif;
   -webkit-font-smoothing: antialiased;
-  background: #f4fafd;
+  -webkit-tap-highlight-color: transparent;
 }
 
 #root {
-  height: 100%;
+  min-height: 100vh;
 }
 
-/* ── Light Mode (default) ── */
-:root, html.light {
-  /* Accent / Brand */
-  --accent:         #0EA5E9;
-  --accent-2:       #0284C7;
-  --accent-light:   #E0F2FE;
-  --accent-tint:    rgba(14,165,233,0.10);
-  --accent-text:    #0369A1;
-
-  /* Backgrounds */
-  --bg-base:        #F4FAFD;
-  --bg-surface:     #FFFFFF;
-  --bg-raised:      #F0F7FB;
-  --bg-card:        #FFFFFF;
-  --bg-overlay:     rgba(0,0,0,0.40);
-
-  /* Text */
-  --tx:             #1E293B;
-  --tx-primary:     #0F172A;
-  --tx-secondary:   #334155;
-  --tx-muted:       #64748B;
-  --tx-ghost:       #94A3B8;
-
-  /* Borders */
-  --border:         #E2EEF5;
-  --border2:        #CBD5E1;
-  --br-default:     #E2EEF5;
-  --br-subtle:      #F1F5F9;
-
-  /* Semantic colors */
-  --green:          #22C55E;
-  --green-light:    #DCFCE7;
-  --green-rgb:      34,197,94;
-
-  --red:            #EF4444;
-  --red-bright:     #DC2626;
-  --red-rgb:        239,68,68;
-
-  --amber:          #F59E0B;
-  --amber-bright:   #D97706;
-  --amber-rgb:      245,158,11;
-  --amber-text:     #92400E;
-
-  --violet:         #8B5CF6;
-  --violet-rgb:     139,92,246;
-
-  /* Misc */
-  --orb-rgb:        14,165,233;
-  --scrim:          rgba(0,0,0,0.35);
-  --shadow:         0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.05);
-  --shadow-lg:      0 4px 16px rgba(0,0,0,0.10);
-  --pill-active:    #0EA5E9;
-  --whatsapp-dark:  #075E54;
-  --ws-card-h:      56px;
-
-  /* Border radius */
-  --radius-xs:      4px;
-  --radius-sm:      6px;
-  --radius-md:      10px;
-  --radius-lg:      14px;
-  --radius-xl:      20px;
-  --radius-full:    9999px;
+button {
+  font-family: inherit;
 }
 
-/* ── Scrollbar ── */
-::-webkit-scrollbar { width: 4px; height: 4px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 99px; }
+a {
+  color: var(--accent);
+}
